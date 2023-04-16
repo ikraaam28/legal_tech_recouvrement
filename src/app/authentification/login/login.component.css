@@ -1,0 +1,18 @@
+body {
+    background-image: url('src/assets/media/auth/bg10.jpeg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
+  
+  [data-bs-theme="dark"] body {
+    background-image: url('src/assets/media/auth/bg10-dark.jpeg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
+  .d-flex.flex-column-fluid.flex-lg-row-auto.justify-content-center.justify-content-lg-end.p-12 {
+    display: flex;
+    align-items: center;
+  }
+  
