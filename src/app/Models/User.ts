@@ -1,40 +1,31 @@
 export class User {
-    id: number;
+
+    email: string;
+    password: string;
     nom: string;
     prenom: string;
-    email: string;
     adresse: string;
-    num: string;
-    emailcharger: string;
-    autrecharger: string;
-    idunique: number;
-    roles: string[];
-    createdat: Date;
+    numero: number;
+    mail_charger: string | null = null;
+    matricule_fiscale: string | null = null;
+    autre_charger: string | null = null;
+    id_unique: string | null = null;
+    roles: string[] = [];
   
-    constructor(
-      id: number = 0,
-      nom: string = '',
-      prenom: string = '',
-      email: string = '',
-      adresse: string = '',
-      num: string = '',
-      emailcharger: string = '',
-      autrecharger: string = '',
-      idunique: number = 0,
-      roles: string[] = [],
-      createdat: Date = new Date()
-    ) {
-      this.id = id;
-      this.nom = nom;
-      this.prenom = prenom;
-      this.email = email;
-      this.adresse = adresse;
-      this.num = num;
-      this.emailcharger = emailcharger;
-      this.autrecharger = autrecharger;
-      this.idunique = idunique;
-      this.roles = roles;
-      this.createdat = createdat;
+    constructor(userData: User) {
+     
+      this.email = userData.email;
+      this.password = userData.password;
+      this.nom = userData.nom;
+      this.prenom = userData.prenom;
+      this.adresse = userData.adresse;
+      this.numero = userData.numero;
+      this.mail_charger = userData.mail_charger || null;
+      this.matricule_fiscale = userData.matricule_fiscale || null;
+      this.autre_charger = userData.autre_charger || null;
+      this.id_unique = userData.autre_charger || null;
+      this.roles = userData.roles || [];
     }
+
   }
   

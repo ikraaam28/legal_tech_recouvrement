@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import * as XLSX from 'xlsx';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from '../Models/User';
 
 import { HttpClient } from '@angular/common/http';
 import { MasterService } from '../services/master.service';
+import { UsersService } from '../services/users.service';
 
 @Component({
   selector: 'app-admin',
@@ -13,9 +14,9 @@ import { MasterService } from '../services/master.service';
 })
 export class AdminComponent implements OnInit {
 
- userlist: any;
-
-  selectedValue: string | undefined;
+  userlist: any;
+  createUser = true;
+  selectedValue!: string;
   showInput: boolean = false;
   selectedOption: string = 'option1';
   inputValue1: string = '';
@@ -23,11 +24,62 @@ export class AdminComponent implements OnInit {
   inputValue3: string = '';
   inputValue4: string = '';
   inputValue5: string = '';
-
-  onRadioChange() {
+  id=0;
+  userData: User = {
+    email: '', 
+    password: '',
+    nom: '',
+    prenom: '',
+    adresse: '',
+    numero: 0 ,
+    mail_charger: '',
+    matricule_fiscale: '',
+    autre_charger: '',
+    id_unique: '',
+    roles: []
+   
+  };
+  resetUserData() {
+    this.userData = {
+        email: '', 
+        password: '',
+        nom: '',
+        prenom: '',
+        adresse: '',
+        numero: 0 ,
+        mail_charger: '',
+        matricule_fiscale: '',
+        autre_charger: '',
+        id_unique: '',
+        roles: []
+    };
+}
+  onRadioChanges() {
     this.showInput = true;
   }
-
+  onRadioChange() {
+    this.showInput = true;
+    switch (this.selectedOption) {
+      case 'option1':
+        this.userData.roles = ['Banque'];
+        break;
+      case 'option2':
+        this.userData.roles = ['Centre D\'appel'];
+        break;
+      case 'option3':
+        this.userData.roles = ['Agent Sur Terrain'];
+        break;
+      case 'option4':
+        this.userData.roles = ['Avocat'];
+        break;
+      default:
+        this.userData.roles = [];
+        break;
+    }
+  }
+  onRadioClick(option: string) {
+    this.selectedOption = option;
+  }
   
   onFileSelected(event: any) {
     const file = event.target.files[0];
@@ -42,95 +94,105 @@ export class AdminComponent implements OnInit {
     };
     reader.readAsArrayBuffer(file);
   }
-   //Form Validables 
-   registerForm!: FormGroup;
-   submitted = false;
+
+  //Form Validables 
+  registerForm!: FormGroup;
+  submitted = false;
+
+  constructor(private formBuilder: FormBuilder, private service: MasterService, private userService: UsersService) {
+  
+  }
 
 
+  deleteUser(id: number) {
+    if (confirm('Are you sure you want to delete this user?')) {
+      this.userService.deleteUser(id).subscribe(
+        (response) => {
+          this.userlist = response;
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+    }
+  }
+  
+ 
+  
+  isLinear=true;
+  modifierUser( id: number,user: User) {
+    this.userData = user;
+    this.submitted = true;
+    this.createUser = false;
+    this.id = id;
+  }
+  //Add user form actions
+  onSubmit() {
+    if(this.createUser){
+    this.registerForm.reset(); 
+      // Get the selected role
+  switch (this.selectedOption) {
+    case 'option1':
+      this.userData.roles = ['Banque'];
+      break;
+    case 'option2':
+      this.userData.roles = ['Centre D\'appel'];
+      break;
+    case 'option3':
+      this.userData.roles = ['Agent Sur Terrain'];
+      break;
+    case 'option4':
+      this.userData.roles = ['Avocat'];
+      break;
+    default:
+      this.userData.roles = [];
+      break;
+  }
+    this.submitted = true;
+    this.userService.registerUser(this.userData).subscribe(
+      (response: any) => {
+        console.log(response);
+        alert("Utilisateur enregistrer avec succes!");
+        this.resetUserData();
+      },
+      (error: any) => console.log("error")
+    );
 
-   constructor( private formBuilder: FormBuilder , private service:MasterService){
-    this.service.GetUsers().subscribe(result=>{
-      this.userlist=result;
-    });
-   }
-
-
-   isLinear=true;
-   //Add user form actions
-   get f() { return this.registerForm.controls; }
-   onSubmit() {
-     
-     this.submitted = true;
-     // stop here if form is invalid
-     if (this.registerForm.invalid) {
-         return;
-     }
-     //True if all the fields are filled
-     if(this.submitted)
-     {
-       alert("Great!!");
-     }
-    
-   }
+  }else{
+    this.userService.UpdateUser(this.id,this.userData).subscribe(
+      (response: any) => {
+        console.log(response);
+        alert("Utilisateur updated avec succes!");
+        this.resetUserData();
+      },
+      (error: any) => console.log("error")
+    );
+  }
+  }
+   
      ngOnInit() {
+      
        //Add User form validations
        this.registerForm = this.formBuilder.group({
        email: ['', [Validators.required, Validators.email]],
-       password: ['', [Validators.required]],
+       password: ['', [Validators.required,]],
+       nom: ['', [Validators.required]],
+       prenom: ['', [Validators.required]],
+       adresse: ['', [Validators.required]],
+       numero: [0, [Validators.required]],
+       id_unique: [null] ,
+       mail_charger:[ null],
+       autre_charger:[ null],
+       matricule_fiscale:[ null],
        });
 
-     
+       this.userService.getUsers().subscribe(result => {
+        this.userlist = result;
+      });
+      
+     }
     
-     
-
-     }
-     Empregister = this.formBuilder.group({
-       basic: this.formBuilder.group({
-         firstname:this.formBuilder.control('',Validators.required),
-         lastname:this.formBuilder.control('',Validators.required)
    
-       }),
-       contact: this.formBuilder.group({
-         email:this.formBuilder.control('',Validators.required),
-         phone:this.formBuilder.control('',Validators.required),
-         fax:this.formBuilder.control('',Validators.required)
-   
-       }),
-       address: this.formBuilder.group({
-         street:this.formBuilder.control('',Validators.required),
-         city:this.formBuilder.control('',Validators.required),
-         pin:this.formBuilder.control('',Validators.required)
-       })
-     });
-   
-     get Basicform(){
-       return this.Empregister.get("basic") as FormGroup;
-     }
-     get contactform(){
-       return this.Empregister.get("contact") as FormGroup;
-     }
-     get addressform(){
-       return this.Empregister.get("address") as FormGroup;
-     }
-     HandleSubmit(){
-       if(this.Empregister.valid){
-         console.log(this.Empregister.value);
-       }
-     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  
 
 }

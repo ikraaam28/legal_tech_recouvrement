@@ -4,20 +4,44 @@ import { Observable } from 'rxjs';
 import { User } from '../Models/User';
 
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
+  private baseUrl = 'http://127.0.0.1:8000'; // Replace with your API endpoint
+
   constructor(private http: HttpClient) { }
-  
-  private apiBaseUrl = 'http://127.0.0.1:8000/api/getAllUsers';
 
-  getUsers(): Observable<User[]> {
-    let token='eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2ODE2NzIwMDYsImV4cCI6MTY4NDI2NDAwNiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJlbWFpbCI6ImlrcmFtc2VnbmkyOEBnbWFpbC5jb20ifQ.X0icRig0aaBTfYAFvplOQtSW1n-z34lnlhpvzpi_xC1XCl2KpLlYZdr7Rb91vK20SYwNcn3n0hCUzguVHJKRyPIJgVX8oOAZX6inYMbbb1yjgJuYxIy1tY2tPE0--QEfN_KyRlVJ5R8aZDJZGy_kumLDX3QwtFK1esfUl8rN-wtUldFtg9gBgMV4TgFhYNdqX2iucn3hq_-mK73GfPe6R9B5qeHXezpzOqsiIrWpGEtw5h_7GVRzfWUhpWWeo87AVELeP-1fTpcBEH1TGsM2vxyS1avDkD9PWFGNUogeZ_b-5YksoE2gpdBLvXfizpAFqNFl6j0IKJsXBggI25h8Zg';
-    let head_obj=new HttpHeaders().set("Authorization", "bearer " + token);
-    return this.http.get<User[]>(`${this.apiBaseUrl}`, { headers: head_obj });
-
+  registerUser(userData: User): Observable<any> {
+    const url = `${this.baseUrl}/userCreate`;
+    const body = JSON.stringify(userData);
+    const headers = new HttpHeaders ({ 
+      'Content-Type': 'application/json' });
+    return this.http.post(url, body, { headers });
   }
+  UpdateUser(id:number, userData: User): Observable<any> {
+    const url = `${this.baseUrl}/users/${id}`;
+    const body = JSON.stringify(userData);
+    const headers = new HttpHeaders ({ 
+      'Content-Type': 'application/json' });
+    return this.http.put(url, body, { headers });
+  }
+  deleteUser(id: number): Observable<any> {
+    const url = `${this.baseUrl}/users/delete/${id}`;
+    const headers = new HttpHeaders ({
+       'Content-Type': 'application/json' });
+    
+    return this.http.delete(url, { headers });
+  }
+  getUsers(): Observable<any> {
+    const url = `${this.baseUrl}/api/getAllUsers`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.get(url, { headers });
+  }
+  
 }
 
   

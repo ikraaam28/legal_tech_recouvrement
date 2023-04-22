@@ -441,40 +441,47 @@
                                                 </div>
                                                 <div class="modal-body  scroll-y mx-5 mx-xl-15 my-7">
                                                     <!--begin::Form-->
-																<form id="kt_modal_add_user_form" class="form" action="#">
+																<form id="kt_modal_add_user_form" class="form" #registerForm="ngForm"   (ngSubmit)="onSubmit()" >
                                                   <!--begin::Scroll-->
 																	<div class="d-flex flex-column scroll-y me-n7 pe-7" id="kt_modal_add_user_scroll" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_add_user_header" data-kt-scroll-wrappers="#kt_modal_add_user_scroll" data-kt-scroll-offset="300px">
-															
-																		<!--begin::Input group-->
-																		<div class="form-group row mb-7">
+                                                                        <div class="form-group row mb-7">
                                                                             <div class="col">
                                                                                 <label class="label required">Nom</label>
-                                                                                <input type="text" name="Nom" class="form-control form-control-solid" placeholder="Nom">
+                                                                                <input type="text" name="Nom" [(ngModel)]="userData.nom" class="form-control form-control-solid" placeholder="Nom" required>
+                                                                                <span *ngIf="!userData.nom && submitted" class="text-danger">Le champ Nom est obligatoire.</span>
                                                                             </div>
                                                                             <div class="col">
                                                                                 <label class="label required">Prenom</label>
-                                                                                <input type="text" name="Prenom" class="form-control form-control-solid" placeholder="Prenom">
+                                                                                <input type="text" name="Prenom" [(ngModel)]="userData.prenom" class="form-control form-control-solid" placeholder="Prenom" required>
+                                                                                <span *ngIf="!userData.prenom && submitted" class="text-danger">Le champ Prénom est obligatoire.</span>
                                                                             </div>
                                                                         </div>
                                                                         
                                                                         <div class="form-group row mb-7">
                                                                             <div class="col">
                                                                                 <label class="label required">Numero</label>
-                                                                                <input type="tel" name="Numero" class="form-control form-control-solid" placeholder="Numero">
+                                                                                <input type="tel" name="Numero" [(ngModel)]="userData.numero" class="form-control form-control-solid" placeholder="Numero" required>
+                                                                                <span *ngIf="!userData.numero && submitted" class="text-danger">Le champ Numéro est obligatoire.</span>
                                                                             </div>
                                                                             <div class="col">
                                                                                 <label class="label required">Adresse</label>
-                                                                                <input type="text" name="Adresse" class="form-control form-control-solid" placeholder="Adresse">
+                                                                                <input type="text" name="Adresse" [(ngModel)]="userData.adresse" class="form-control form-control-solid" placeholder="Adresse" required>
+                                                                                <span *ngIf="!userData.adresse && submitted" class="text-danger">Le champ Adresse est obligatoire.</span>
                                                                             </div>
                                                                         </div>
                                                                         
                                                                         <div class="form-group row mb-7">
                                                                             <div class="col">
                                                                                 <label class="label required">Email</label>
-                                                                                <input type="email" name="Email" class="form-control form-control-solid" placeholder="Email">
+                                                                                <input type="email" name="Email" [(ngModel)]="userData.email" class="form-control form-control-solid" placeholder="Email" required>
+                                                                                <span *ngIf="!userData.email && submitted" class="text-danger">Le champ Email est obligatoire.</span>
+                                                                            </div>
+                                                                            <div class="col">
+                                                                                <label class="label required">Password</label>
+                                                                                <input type="password" name="password" [(ngModel)]="userData.password" class="form-control form-control-solid" placeholder="Password" required>
+                                                                                <span *ngIf="!userData.password && submitted" class="text-danger">Le champ Mot de passe est obligatoire.</span>
                                                                             </div>
                                                                         </div>
-                                                                        
 																		<!--begin::Input group-->
 																		<div class="mb-7">
 																			<!--begin::Label-->
@@ -487,7 +494,7 @@
                                                                                     <!--begin::Radio-->
                                                                                     <div class="form-check form-check-custom form-check-solid">
                                                                                         <!--begin::Input-->
-                                                                                        <input class="form-check-input me-3" name="radioOption" type="radio" value="option1" id="kt_modal_update_role_option_1" [(ngModel)]="selectedOption" (change)="onRadioChange()"/>
+                                                                                        <input class="form-check-input me-3" name="radioOption" type="radio" value="option1" id="kt_modal_update_role_option_1" [(ngModel)]="selectedOption" (change)="onRadioChange()" />
                                                                                         <!--end::Input-->
                                                                                         <!--begin::Label-->
                                                                                         <label class="form-check-label radio" for="kt_modal_update_role_option_1">
@@ -500,17 +507,17 @@
                                                                                     <div class="option" >
                                                                                         <div *ngIf="selectedOption === 'option1' && showInput" class="d-flex align-items-center">
                                                                                             <span class="me-3">Matricule Fiscale:</span>
-                                                                                            <input type="text" [(ngModel)]="inputValue1" placeholder="Matricule Fiscale" class="form-control form-control-solid mb-3 mb-lg-0 flex-grow-1">
+                                                                                            <input type="text" [(ngModel)]="userData.matricule_fiscale" placeholder="Matricule Fiscale" class="form-control form-control-solid mb-3 mb-lg-0 flex-grow-1">
                                                                                           </div>
                                                                                           <div class='separator separator-dashed my-5'></div>
                                                                                     <div *ngIf="selectedOption === 'option1' && showInput"class="d-flex">
                                                                                         <span class="me-3">mail charger:</span>
-                                                                                        <input type="email" [(ngModel)]="inputValue2" placeholder="Mail Charger " class="form-control form-control-solid mb-3 mb-lg-0">
+                                                                                        <input type="email" [(ngModel)]="userData.mail_charger" placeholder="Mail Charger " class="form-control form-control-solid mb-3 mb-lg-0">
                                                                                     </div>
                                                                                     <div class='separator separator-dashed my-5'></div>
                                                                                     <div *ngIf="selectedOption === 'option1' && showInput" class="d-flex">
                                                                                         <span class="me-3">Autre charger:</span>
-                                                                                        <input type="email" [(ngModel)]="inputValue3" placeholder="Mail Charger " class="form-control form-control-solid mb-3 mb-lg-0">
+                                                                                        <input type="email" [(ngModel)]="userData.autre_charger" placeholder="Mail Charger " class="form-control form-control-solid mb-3 mb-lg-0">
                                                                                     </div>
                                                                                     </div>
                                                                                     <!--end::Radio-->
@@ -576,7 +583,7 @@
                                                                                 <div class="option" >
                                                                                     <div *ngIf="selectedOption === 'option4' && showInput" class="d-flex align-items-center">
                                                                                         <span class="me-3">Id Unique:</span>
-                                                                                        <input type="text" [(ngModel)]="inputValue4" placeholder="Id Unique" class="form-control form-control-solid mb-3 mb-lg-0 flex-grow-1">
+                                                                                        <input type="text" [(ngModel)]="userData.id_unique" placeholder="Id Unique" class="form-control form-control-solid mb-3 mb-lg-0 flex-grow-1">
                                                                                       </div>
                                                                                      
                                                                                       </div>
@@ -673,7 +680,7 @@
     
                     <div class="ms-5">
                         <!--begin::Title-->
-                        <a class="text-gray-800 text-hover-primary fs-5 " data-kt-ecommerce-product-filter="product_name">{{user.email}}</a>
+                        <a class="text-gray-800 text-hover-primary fs-5 " data-kt-ecommerce-product-filter="product_name" >{{user.email}}</a>
                         <!--end::Title-->
                     </div>
                 </div>
@@ -684,7 +691,7 @@
             <!--begin::Status--->
                             <td class="text-end pe-0" data-order="Scheduled">
                 <!--begin::Badges-->                    
-                <div class="badge badge-light-primary">{{user.password}}</div>
+                <div class="badge badge-light-primary">{{user.id}}</div>
                 <!--end::Badges-->
             </td>
             <!--end::Status--->
@@ -697,63 +704,13 @@
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" routerLink="/fiche">Consulter</a>
-                        <a class="dropdown-item" href="#">Supprimer</a>
+                        <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal2" (click)="modifierUser(user.id, user)">Modifier</a>
+                        <a class="dropdown-item" (click)="deleteUser(user.id)">Supprimer</a>
                     </div>
                 </div>
             </td>
             <!--end::Action--->
-        </tr>
-        <!--end::Table row-->
-                <!--begin::Table row-->
-        <tr>
-            <!--begin::Checkbox-->
-            <td>
-                <div class="form-check form-check-sm form-check-custom form-check-solid">
-                    <input class="form-check-input" type="checkbox" value="1" />
-                </div>
-            </td>
-            <!--end::Checkbox-->
-    
-            <!--begin::Category--->
-            <td>
-                <div class="d-flex align-items-center">
-                  
-    
-                    <div class="ms-5">
-                        <!--begin::Title-->
-                        <a  class="text-gray-800 text-hover-primary fs-5 " data-kt-ecommerce-product-filter="product_name">Utilisateur</a>
-                        <!--end::Title-->
-                    </div>
-                </div>
-            </td>
-            <!--end::Category--->
-    
-          
-    
-            <!--begin::Status--->
-                            <td class="text-end pe-0" data-order="Scheduled">
-                <!--begin::Badges-->                    
-                <div class="badge badge-light-primary">Banque</div>
-                <!--end::Badges-->
-            </td>
-            <!--end::Status--->
-    
-      <!--begin::Action--->
-      <td class="text-end">
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Actions
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Consulter</a>
-                <a class="dropdown-item" href="#">Supprimer</a>
-            </div>
-        </div>
-    </td>
-    <!--end::Action--->
-        </tr>
-        <!--end::Table row-->
-                <!--begin::Table row-->
+        
          </tbody></table>
   </div></div></div></div></div>
 </div>
