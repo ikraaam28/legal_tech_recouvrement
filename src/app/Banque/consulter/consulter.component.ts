@@ -1,10 +1,7 @@
 import { Component } from '@angular/core';
 import * as XLSX from 'xlsx';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-<<<<<<< HEAD
 import { FicheImpayeService } from 'src/app/services/fiche-impaye.service';
-=======
->>>>>>> 414fff7856f8b66b02e56391f076c7a16477f58c
 
 
 
@@ -14,11 +11,7 @@ import { FicheImpayeService } from 'src/app/services/fiche-impaye.service';
   styleUrls: ['./consulter.component.css']
 })
 export class ConsulterComponent  {
-<<<<<<< HEAD
   FicheImpayelist: any;
-=======
-  
->>>>>>> 414fff7856f8b66b02e56391f076c7a16477f58c
   onFileSelected(event: any) {
     const file = event.target.files[0];
     const reader = new FileReader();
@@ -35,11 +28,7 @@ export class ConsulterComponent  {
   //Form Validables 
   registerForm!: FormGroup;
 submitted = false;
-<<<<<<< HEAD
 constructor( private formBuilder: FormBuilder, private ficheImpaye: FicheImpayeService){}
-=======
-constructor( private formBuilder: FormBuilder){}
->>>>>>> 414fff7856f8b66b02e56391f076c7a16477f58c
 isLinear=true;
 //Add user form actions
 get f() { return this.registerForm.controls; }
@@ -57,7 +46,6 @@ onSubmit() {
   }
  
 }
-<<<<<<< HEAD
 deleteFiche(id: number) {
   if (confirm('Are you sure you want to delete this fiche?')) {
     this.ficheImpaye.deleteFicheImpaye(id).subscribe(
@@ -77,10 +65,6 @@ deleteFiche(id: number) {
 
     //Add User form validations
     
-=======
-  ngOnInit() {
-    //Add User form validations
->>>>>>> 414fff7856f8b66b02e56391f076c7a16477f58c
     this.registerForm = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
@@ -119,8 +103,5 @@ deleteFiche(id: number) {
       console.log(this.Empregister.value);
     }
   }
-<<<<<<< HEAD
   
-=======
->>>>>>> 414fff7856f8b66b02e56391f076c7a16477f58c
 }
