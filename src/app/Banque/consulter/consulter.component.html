@@ -198,6 +198,26 @@ Listes Des Impayées
 <div class="card-body pt-0">
 
 <!--begin::Table-->
+<<<<<<< HEAD
+<table class="table align-middle table-row-dashed fs-6 gy-5" >
+<!--begin::Table head-->
+<thead>
+<!--begin::Table row-->
+<tr class="text-start text-gray-400 fw-bold fs-7  text-uppercase gs-0">
+    
+    <th class="align-items-center min-w-100px">Nom & Prénom </th>
+    <th class="align-items-center min-w-100px">Cin </th>
+    <th class="align-items-center min-w-100px">Adresse </th>
+    <th class="align-items-center min-w-100px">Téléphone </th>
+    <th class="align-items-center min-w-100px">Email </th>
+    <th class="align-items-center min-w-100px">Montant créances </th>
+    <th class="align-items-center min-w-100px">Objet Créances </th>
+    <th class="align-items-center min-w-100px">Montant échéances </th>
+    <th class="align-items-center min-w-100px">Nombre échéances </th>
+    <th class="align-items-center min-w-100px">Note Banque</th>
+    <th class="align-items-center min-w-100px">Banque</th>
+    <th class="align-items-center min-w-70px">Actions</th>
+=======
 <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_products_table">
 <!--begin::Table head-->
 <thead>
@@ -212,12 +232,136 @@ Listes Des Impayées
     
     <th class="text-end min-w-100px">Status</th>
     <th class="text-end min-w-70px">Actions</th>
+>>>>>>> 414fff7856f8b66b02e56391f076c7a16477f58c
 </tr>
 <!--end::Table row-->
 </thead>
 <!--end::Table head-->
 
 <!--begin::Table body-->
+<<<<<<< HEAD
+<tbody class="fw-semibold  fs-7 text-gray-600">
+            <!--begin::Table row-->
+    <tr  *ngFor="let ficheimpaye of FicheImpayelist">
+        <!--begin::Checkbox-->
+        <td>
+          <div class="d-flex align-items-center">
+            <div class="ms-5">
+                <!--begin::Title-->
+                <p class="text-gray-800 text-hover-primary fs-5 ">{{ficheimpaye.nom}} {{ficheimpaye.prenom}}</p>
+                <!--end::Title-->
+            </div>
+        </div>
+        </td>
+        <td>
+          <div class="d-flex align-items-center">
+            <div class="ms-5">
+                <!--begin::Title-->
+                <p class="text-gray-800 text-hover-primary fs-5 ">{{ficheimpaye.cin}}</p>
+                <!--end::Title-->
+            </div>
+        </div>
+        </td>
+        <td>
+          <div class="d-flex align-items-center">
+            <div class="ms-5">
+                <!--begin::Title-->
+                <p class="text-gray-800 text-hover-primary fs-5 ">{{ficheimpaye.adresse}}</p>
+                <!--end::Title-->
+            </div>
+        </div>
+        </td>
+        <td>
+          <div class="d-flex align-items-center">
+            <div class="ms-5">
+                <!--begin::Title-->
+                <p class="text-gray-800 text-hover-primary fs-5 ">{{ficheimpaye.tel}}</p>
+                <!--end::Title-->
+            </div>
+        </div>
+        </td>
+        <td>
+          <div class="d-flex align-items-center">
+            <div class="ms-5">
+                <!--begin::Title-->
+                <p class="text-gray-800 text-hover-primary fs-5 ">{{ficheimpaye.email}}</p>
+                <!--end::Title-->
+            </div>
+        </div>
+        </td>
+        <td>
+          <div class="d-flex align-items-center">
+            <div class="ms-5">
+                <!--begin::Title-->
+                <p class="text-gray-800 text-hover-primary fs-5 ">{{ficheimpaye.montantCreances}}</p>
+                <!--end::Title-->
+            </div>
+        </div>
+        </td>
+        <td>
+          <div class="d-flex align-items-center">
+            <div class="ms-5">
+                <!--begin::Title-->
+                <p class="text-gray-800 text-hover-primary fs-5 ">{{ficheimpaye.objetCreances}}</p>
+                <!--end::Title-->
+            </div>
+        </div>
+        </td>
+        <td>
+          <div class="d-flex align-items-center">
+            <div class="ms-5">
+                <!--begin::Title-->
+                <p class="text-gray-800 text-hover-primary fs-5 ">{{ficheimpaye.montantEcheances}}</p>
+                <!--end::Title-->
+            </div>
+        </div>
+        </td>
+        <td>
+          <div class="d-flex align-items-center">
+            <div class="ms-5">
+                <!--begin::Title-->
+                <p class="text-gray-800 text-hover-primary fs-5 ">{{ficheimpaye.nombreEcheances}}</p>
+                <!--end::Title-->
+            </div>
+        </div>
+        </td>
+        <td>
+          <div class="d-flex align-items-center">
+            <div class="ms-5">
+                <!--begin::Title-->
+                <p class="text-gray-800 text-hover-primary fs-5 ">{{ficheimpaye.noteBanque}}</p>
+                <!--end::Title-->
+            </div>
+        </div>
+        </td>
+        <td>
+          <div class="d-flex align-items-center">
+            <div class="ms-5">
+                <p class="text-gray-800 text-hover-primary fs-5 ">{{ficheimpaye.user.nom}} {{ficheimpaye.user.prenom}}</p>
+            </div>
+        </div>
+        </td>
+        <td class="text-end">
+          <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Actions
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="/fiche">Consulter</a>
+                  <a class="dropdown-item" (click)="deleteFiche(ficheimpaye.id)">Supprimer</a>
+              </div>
+          </div>
+      </td>
+    </tr>
+   
+    <!--end::Table row-->
+            <!--begin::Table row-->
+     </tbody></table>
+    </div>
+
+    
+  </div></div></div></div></div></div>
+=======
 <tbody class="fw-semibold text-gray-600">
             <!--begin::Table row-->
     <tr>
@@ -318,3 +462,4 @@ Listes Des Impayées
     <!--end::Table row-->
             <!--begin::Table row-->
      </tbody></table></div></div></div></div></div></div></div>
+>>>>>>> 414fff7856f8b66b02e56391f076c7a16477f58c

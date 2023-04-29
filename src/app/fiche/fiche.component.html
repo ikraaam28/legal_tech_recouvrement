@@ -1,4 +1,78 @@
 <div class="col-md-6 mx-3">
+<<<<<<< HEAD
+    <app-navbar></app-navbar>
+  </div><!--
+  --><div  style="margin-top: 90px;" >
+<div id="kt_app_content" class="app-content flex-column-fluid">
+    <!--begin::Content container-->
+    <div id="kt_app_content_container" class="app-container container-xxl">
+        <!--begin::Layout-->
+        <div class="d-flex flex-column flex-xl-row">
+   <app-user-card></app-user-card>
+   <!--begin::Content-->
+   <div class="flex-lg-row-fluid ms-lg-15">
+    
+    <ul class="nav nav-custom nav-tabs nav-line-tabs nav-line-tabs-2x border-0 fs-4 fw-semibold mb-8">
+        <!--begin:::Tab item-->
+        <li class="nav-item" [ngClass]="{'active': activeTab === 'banque'}">
+          <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#view_banque_tab" (click)="activeTab = 'banque'">
+            Banque
+          </a>
+        </li>
+        <!--end:::Tab item-->
+        <!--begin:::Tab item-->
+        <li class="nav-item" [ngClass]="{'active': activeTab === 'call'}">
+          <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#call" (click)="activeTab = 'call'">
+            Call Center
+          </a>
+        </li>
+        <!--end:::Tab item-->
+        <!--begin:::Tab item-->
+        <li class="nav-item" [ngClass]="{'active': activeTab === 'agent'}">
+          <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#view_agent_sur_terrain_tab" (click)="activeTab = 'agent'">
+            Agent sur Terrain
+          </a>
+        </li>
+        <!--end:::Tab item-->
+        <!--begin:::Tab item-->
+        <li class="nav-item" [ngClass]="{'active': activeTab === 'avocat'}">
+          <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#view_avocat_tab" (click)="activeTab = 'avocat'">
+            Avocat
+          </a>
+        </li>
+        <!--end:::Tab item-->
+        <!--begin:::Tab item-->
+        <li class="nav-item" [ngClass]="{'active': activeTab === 'huissier'}">
+          <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#view_huissier_nottaire_tab" (click)="activeTab = 'huissier'">
+            Huissier Nottaire
+          </a>
+        </li>
+        <!--end:::Tab item-->
+      </ul>
+      
+      <div class="tab-content">
+        <div class="tab-pane fade" id="view_banque_tab" role="tabpanel">
+          <!-- Banque content here -->
+          <app-notes *ngIf="activeTab === 'banque'"></app-notes>
+        </div>
+        <div class="tab-pane fade" id="call" role="tabpanel">
+          <!-- Call Center content here -->
+          <app-notes *ngIf="activeTab === 'call'"></app-notes>
+          <app-calendreier *ngIf="activeTab === 'call'"></app-calendreier>
+        </div>
+        <div class="tab-pane fade" id="view_agent_sur_terrain_tab" role="tabpanel">
+          <!-- Agent sur Terrain content here -->
+          <app-notes *ngIf="activeTab === 'agent'"></app-notes>
+        </div>
+        <div class="tab-pane fade" id="view_avocat_tab" role="tabpanel">
+          <!-- Avocat content here -->
+          <app-notes *ngIf="activeTab === 'avocat'" [hideSpecificFields]="isAvocatActive()"></app-notes>
+        </div>
+        <div class="tab-pane fade" id="view_huissier_nottaire_tab" role="tabpanel">
+          <!-- Huiss-->     
+          <app-notes *ngIf="activeTab === 'huissier'"></app-notes> 
+    </div> </div></div></div></div></div></div>
+=======
   <app-navbar></app-navbar>
 </div><!--
 --><div class="mt-18">
@@ -1976,3 +2050,4 @@ Ajouter événement</button>
 <!--end::Modal dialog-->
 </div>
 <!--end::Modal - Add task-->
+>>>>>>> 414fff7856f8b66b02e56391f076c7a16477f58c

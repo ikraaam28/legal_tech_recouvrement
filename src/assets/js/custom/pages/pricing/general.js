@@ -27,10 +27,17 @@ var KTPricingGeneral = function () {
         // Handle period change
         planPeriodMonthButton.addEventListener('click', function (e) {
             e.preventDefault();
+<<<<<<< HEAD
+        
+            planPeriodMonthButton.classList.add('active');
+            planPeriodAnnualButton.classList.remove('active');
+        
+=======
 
             planPeriodMonthButton.classList.add('active');
             planPeriodAnnualButton.classList.remove('active');
 
+>>>>>>> 414fff7856f8b66b02e56391f076c7a16477f58c
             changePlanPrices('month');
         });
 
@@ -48,12 +55,22 @@ var KTPricingGeneral = function () {
     return {
         init: function () {
             element = document.querySelector('#kt_pricing');
+<<<<<<< HEAD
+            planPeriodMonthButton = element?.querySelector('[data-kt-plan="month"]');
+            planPeriodAnnualButton = element?.querySelector('[data-kt-plan="annual"]');
+        
+            // Handlers
+            handlePlanPeriodSelection();
+        } 
+        
+=======
 			planPeriodMonthButton = element.querySelector('[data-kt-plan="month"]');
 			planPeriodAnnualButton = element.querySelector('[data-kt-plan="annual"]');
 
             // Handlers
             handlePlanPeriodSelection();
         }
+>>>>>>> 414fff7856f8b66b02e56391f076c7a16477f58c
     }
 }();
 

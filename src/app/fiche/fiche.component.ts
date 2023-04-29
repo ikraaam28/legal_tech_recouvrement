@@ -30,4 +30,14 @@ export class FicheComponent  {
   toggleCollapse5() {
     this.isCollapsed5 = !this.isCollapsed5;
   }
+<<<<<<< HEAD
+  showAppNotes = false;
+  activeTab: string | undefined;
+ // propriété pour suivre l'onglet actif
+  
+  isAvocatActive(): boolean {
+    return this.activeTab === 'avocat'; // méthode pour vérifier si l'onglet "Avocat" est actif
+  }
+=======
+>>>>>>> 414fff7856f8b66b02e56391f076c7a16477f58c
 }
