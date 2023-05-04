@@ -25,12 +25,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { CalendarComponent } from './callcenter/calendar/calendar.component';
 import { HTTP_INTERCEPTORS} from '@angular/common/http';
 import { TokenInterceptorService } from './services/token-interceptor.service';
-<<<<<<< HEAD
 import { UserCardComponent } from './fiche/user-card/user-card.component';
 import { NotesComponent } from './fiche/notes/notes.component';
 import { CalendreierComponent } from './fiche/calendreier/calendreier.component';
-=======
->>>>>>> 414fff7856f8b66b02e56391f076c7a16477f58c
+import { MatMenuModule } from '@angular/material/menu'; // Import MatMenuModule
+import { MatIconModule } from '@angular/material/icon';
+import { AccountComponent } from './account/account.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,14 +47,11 @@ import { CalendreierComponent } from './fiche/calendreier/calendreier.component'
     LandingComponent,
     AdminComponent,
     CallcenterComponent,
-<<<<<<< HEAD
     CalendarComponent,
     UserCardComponent,
     NotesComponent,
-    CalendreierComponent
-=======
-    CalendarComponent
->>>>>>> 414fff7856f8b66b02e56391f076c7a16477f58c
+    CalendreierComponent,
+    AccountComponent
   ],
   imports: [
     BrowserModule,
@@ -65,8 +62,11 @@ import { CalendreierComponent } from './fiche/calendreier/calendreier.component'
     MatStepperModule,
     MatInputModule,
     MatButtonModule,
-    HttpClientModule
-  ],
+    HttpClientModule,BrowserModule, 
+    BrowserAnimationsModule, 
+    MatMenuModule,
+    MatIconModule],
+  
   providers: [{provide: HTTP_INTERCEPTORS, useClass:TokenInterceptorService,multi:true}],
   bootstrap: [AppComponent]
 })

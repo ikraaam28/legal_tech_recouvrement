@@ -1,4 +1,10 @@
 import { Component } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { AuthServiceService } from '../services/auth-service.service';
+import { Router } from '@angular/router';
+import { tap } from 'rxjs';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-navbar',
@@ -7,5 +13,28 @@ import { Component } from '@angular/core';
 })
 
 export class NavbarComponent {
+  toggleUserMenu(): void {
+    const userMenu = document.querySelector('.menu-sub');
+    if (userMenu) {
+      userMenu.classList.toggle('menu-sub-show');
+    }
+  }
+  constructor(private authService:AuthServiceService,private router: Router,private cookieService: CookieService) {}
+  logout() {
+    const token = this.authService.getToken();
+    console.log(`Old token: ${token}`);
+    this.authService.logout(token).subscribe(
+      response => {
+        console.log(`New token: ${response.new_token}`);
+        this.authService.setToken(null);
+        this.router.navigate(['']);
+      },
+      error => {
+        console.error(error);
+        // Handle error here, e.g. display an error message
+      }
+    );
+  }
 
+ 
 }

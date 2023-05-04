@@ -11,29 +11,24 @@ import { FicheComponent } from './fiche/fiche.component';
 import { LandingComponent } from './landing/landing.component';
 import { CallcenterComponent } from './callcenter/callcenter.component';
 import { CalendarComponent } from './callcenter/calendar/calendar.component';
+import { AccountComponent } from './account/account.component';
+import { AuthGuard } from './guards/auth.guard';
 
 
 
 const routes: Routes = [
-<<<<<<< HEAD
   {path: 'login', component:LoginComponent},
-=======
-  {path: '', component:LoginComponent},
->>>>>>> 414fff7856f8b66b02e56391f076c7a16477f58c
   {path:'resetpassword', component:ResetpasswordComponent},
   {path:'newpassword',component:NewpasswordComponent},
   {path:'home',component:HomeComponent},
-  {path:'ajout',component:AjoutComponent},
-  {path:'consulter',component:ConsulterComponent},
+  {path:'ajout',component:AjoutComponent },
+  {path:'consulter',component:ConsulterComponent },
   {path:'fiche',component:FicheComponent},
-<<<<<<< HEAD
   {path:'',component:LandingComponent},
-=======
-  {path:'landing',component:LandingComponent},
->>>>>>> 414fff7856f8b66b02e56391f076c7a16477f58c
   {path:'admin',component:AdminComponent},
   {path:'callcenter',component:CallcenterComponent},
   {path:'calendar',component:CalendarComponent},
+  {path:'account',component:AccountComponent}
   
 ];
 @NgModule({

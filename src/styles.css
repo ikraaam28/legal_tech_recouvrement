@@ -757,11 +757,7 @@ progress {
 }
 @media (min-width: 1400px) {
   .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
-<<<<<<< HEAD
     max-width: 1420px;
-=======
-    max-width: 1320px;
->>>>>>> 414fff7856f8b66b02e56391f076c7a16477f58c
   }
 }
 .row {
@@ -49595,6 +49591,9 @@ body,
     color: #ffffff !important;
   }
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
