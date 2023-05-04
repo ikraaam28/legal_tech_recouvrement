@@ -69,16 +69,37 @@
 										<!--end:Menu link-->
 										
 									</div>
-									<!--end:Menu item-->
 									
-											
-									
-									<!--end:Menu item-->
 								</div>
 								<!--end::Menu-->
+								
 							</div>
 							<!--end::Menu wrapper-->
-							
+							<button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+  <mat-icon>menu</mat-icon>
+</button>
+<mat-menu #menu="matMenu">
+  
+    
+  <!--begin::Menu item-->
+										<div class="menu-item px-3">
+											
+										</div>
+										<!--end::Menu item-->
+										<!--begin::Menu separator-->
+										<div class="separator my-2"></div>
+										<!--end::Menu separator-->
+										<!--begin::Menu item-->
+										<div class="menu-item px-5">
+											<a routerLink="account" class="menu-link px-5"><mat-icon>settings</mat-icon> Profile</a>
+										</div>
+										
+										<!--begin::Menu item-->
+										<div class="menu-item px-5">
+											<a (click)="logout()" class="menu-link px-5"><mat-icon>logout</mat-icon> Se déconnecter</a>
+										</div>
+										<!--end::Menu item-->
+</mat-menu>
 						</div>
 						<!--end::Header wrapper-->
 						

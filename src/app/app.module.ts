@@ -28,6 +28,9 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
 import { UserCardComponent } from './fiche/user-card/user-card.component';
 import { NotesComponent } from './fiche/notes/notes.component';
 import { CalendreierComponent } from './fiche/calendreier/calendreier.component';
+import { MatMenuModule } from '@angular/material/menu'; // Import MatMenuModule
+import { MatIconModule } from '@angular/material/icon';
+import { AccountComponent } from './account/account.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,7 +50,8 @@ import { CalendreierComponent } from './fiche/calendreier/calendreier.component'
     CalendarComponent,
     UserCardComponent,
     NotesComponent,
-    CalendreierComponent
+    CalendreierComponent,
+    AccountComponent
   ],
   imports: [
     BrowserModule,
@@ -58,8 +62,11 @@ import { CalendreierComponent } from './fiche/calendreier/calendreier.component'
     MatStepperModule,
     MatInputModule,
     MatButtonModule,
-    HttpClientModule
-  ],
+    HttpClientModule,BrowserModule, 
+    BrowserAnimationsModule, 
+    MatMenuModule,
+    MatIconModule],
+  
   providers: [{provide: HTTP_INTERCEPTORS, useClass:TokenInterceptorService,multi:true}],
   bootstrap: [AppComponent]
 })

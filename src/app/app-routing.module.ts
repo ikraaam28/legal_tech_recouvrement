@@ -11,6 +11,8 @@ import { FicheComponent } from './fiche/fiche.component';
 import { LandingComponent } from './landing/landing.component';
 import { CallcenterComponent } from './callcenter/callcenter.component';
 import { CalendarComponent } from './callcenter/calendar/calendar.component';
+import { AccountComponent } from './account/account.component';
+import { AuthGuard } from './guards/auth.guard';
 
 
 
@@ -19,13 +21,14 @@ const routes: Routes = [
   {path:'resetpassword', component:ResetpasswordComponent},
   {path:'newpassword',component:NewpasswordComponent},
   {path:'home',component:HomeComponent},
-  {path:'ajout',component:AjoutComponent},
-  {path:'consulter',component:ConsulterComponent},
+  {path:'ajout',component:AjoutComponent },
+  {path:'consulter',component:ConsulterComponent },
   {path:'fiche',component:FicheComponent},
   {path:'',component:LandingComponent},
   {path:'admin',component:AdminComponent},
   {path:'callcenter',component:CallcenterComponent},
   {path:'calendar',component:CalendarComponent},
+  {path:'account',component:AccountComponent}
   
 ];
 @NgModule({
