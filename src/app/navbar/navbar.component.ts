@@ -21,19 +21,10 @@ export class NavbarComponent {
   }
   constructor(private authService:AuthServiceService,private router: Router,private cookieService: CookieService) {}
   logout() {
-    const token = this.authService.getToken();
-    console.log(`Old token: ${token}`);
-    this.authService.logout(token).subscribe(
-      response => {
-        console.log(`New token: ${response.new_token}`);
-        this.authService.setToken(null);
-        this.router.navigate(['']);
-      },
-      error => {
-        console.error(error);
-        // Handle error here, e.g. display an error message
-      }
-    );
+ 
+    this.authService.logout();
+    this.router.navigate(['/login']);
+    
   }
 
  

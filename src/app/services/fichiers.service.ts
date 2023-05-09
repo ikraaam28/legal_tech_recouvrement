@@ -1,50 +1,47 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { FicheImpaye } from '../Models/FicheImpaye';
+import { Fichiers } from '../Models/Fichiers';
 
 @Injectable({
   providedIn: 'root'
 })
-export class FicheImpayeService {
+export class FichiersService {
   private baseUrl = 'http://127.0.0.1:8000'; // Replace with your API endpoint
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  registerFicheImpaye(userData: FicheImpaye, id:number): Observable<any> {
-    
-    const url = `${this.baseUrl}/ficheImpaye/ficheImpayecreated/${id}`;
+  registerfichiers(userData: Fichiers): Observable<any> {
+    const url = `${this.baseUrl}/fichiers/fichiercreated`;
     const body = JSON.stringify(userData);
     const headers = new HttpHeaders ({ 
       'Content-Type': 'application/json' });
     return this.http.post(url, body, { headers });
   }
-  UpdateFicheImpaye(id:number, userData: FicheImpaye): Observable<any> {
-    const url = `${this.baseUrl}/ficheImpaye/${id}`;
+  Updatefichiers(id:number, userData: Fichiers): Observable<any> {
+    const url = `${this.baseUrl}/fichiers/${id}`;
     const body = JSON.stringify(userData);
     const headers = new HttpHeaders ({ 
       'Content-Type': 'application/json' });
     return this.http.put(url, body, { headers });
   }
-  deleteFicheImpaye(id: number): Observable<any> {
-    const url = `${this.baseUrl}/ficheImpaye/delete/${id}`;
+  deletefichiers(id: number): Observable<any> {
+    const url = `${this.baseUrl}/fichiers/delete/${id}`;
     const headers = new HttpHeaders ({
        'Content-Type': 'application/json' });
     return this.http.delete(url, { headers });
   }
   getFichesImpayes(): Observable<any> {
-    const url = `${this.baseUrl}/ficheImpaye`;
+    const url = `${this.baseUrl}/fichiers`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
     return this.http.get(url, { headers });
   }
-  GetFicheImpaye(id:number): Observable<any> {
-    const url = `${this.baseUrl}/ficheImpaye/${id}`;
+  Getfichiers(id:number): Observable<any> {
+    const url = `${this.baseUrl}/fichiers/${id}`;
     const headers = new HttpHeaders ({ 
       'Content-Type': 'application/json' });
     return this.http.get(url, { headers });
   }
 }
-
-  

@@ -1,50 +1,47 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { FicheImpaye } from '../Models/FicheImpaye';
+import { Notes } from '../Models/Notes';
 
 @Injectable({
   providedIn: 'root'
 })
-export class FicheImpayeService {
+export class NotesService {
   private baseUrl = 'http://127.0.0.1:8000'; // Replace with your API endpoint
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  registerFicheImpaye(userData: FicheImpaye, id:number): Observable<any> {
-    
-    const url = `${this.baseUrl}/ficheImpaye/ficheImpayecreated/${id}`;
+  registernotes(userData: Notes): Observable<any> {
+    const url = `${this.baseUrl}/notes/notecreated`;
     const body = JSON.stringify(userData);
     const headers = new HttpHeaders ({ 
       'Content-Type': 'application/json' });
     return this.http.post(url, body, { headers });
   }
-  UpdateFicheImpaye(id:number, userData: FicheImpaye): Observable<any> {
-    const url = `${this.baseUrl}/ficheImpaye/${id}`;
+  Updatenotes(id:number, userData: Notes): Observable<any> {
+    const url = `${this.baseUrl}/notes/${id}`;
     const body = JSON.stringify(userData);
     const headers = new HttpHeaders ({ 
       'Content-Type': 'application/json' });
     return this.http.put(url, body, { headers });
   }
-  deleteFicheImpaye(id: number): Observable<any> {
-    const url = `${this.baseUrl}/ficheImpaye/delete/${id}`;
+  deletenotes(id: number): Observable<any> {
+    const url = `${this.baseUrl}/notes/delete/${id}`;
     const headers = new HttpHeaders ({
        'Content-Type': 'application/json' });
     return this.http.delete(url, { headers });
   }
-  getFichesImpayes(): Observable<any> {
-    const url = `${this.baseUrl}/ficheImpaye`;
+  getnotes(): Observable<any> {
+    const url = `${this.baseUrl}/notes`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
     return this.http.get(url, { headers });
   }
-  GetFicheImpaye(id:number): Observable<any> {
-    const url = `${this.baseUrl}/ficheImpaye/${id}`;
+  Getnote(id:number): Observable<any> {
+    const url = `${this.baseUrl}/notes/${id}`;
     const headers = new HttpHeaders ({ 
       'Content-Type': 'application/json' });
     return this.http.get(url, { headers });
   }
 }
-
-  

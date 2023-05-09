@@ -41,7 +41,20 @@ export class UsersService {
     });
     return this.http.get(url, { headers });
   }
-  
+  getUser(id:number): Observable<any> {
+    const url = `${this.baseUrl}/api/getuser/${id}`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.get(url, { headers });
+  }
+  GetRoleUser(email: string): Observable<any> {
+    const url = `${this.baseUrl}/users/getRole/${email}`;
+    const headers = new HttpHeaders ({
+       'Content-Type': 'application/json' });
+    
+    return this.http.get(url, { headers });
+  }
 }
 
   

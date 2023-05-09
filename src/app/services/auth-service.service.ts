@@ -1,27 +1,37 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, catchError, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, tap, throwError } from 'rxjs';
 import jwt_decode from 'jwt-decode';
-
-
-
+interface LoginResponse {
+  token: string;
+  user: any;
+}
 @Injectable({
   providedIn: 'root'
 })
 export class AuthServiceService {
   private token: string | null = null;
+  private currentUserSubject = new BehaviorSubject<any>(null);
+  public currentUser = this.currentUserSubject.asObservable();
+
+  private API_URL = 'http://127.0.0.1:8000/login';
 
   constructor(private http: HttpClient) { }
-   private API_URL='http://127.0.0.1:8000/login';
+
   login(email: string, password: string): Observable<any> {
-    return this.http.post(this.API_URL, {
+    return this.http.post<LoginResponse>(this.API_URL, {
       email: email,
       password: password
-    });
+    }).pipe(
+      tap(response => {
+        const token = response.token;
+        this.setToken(token);
+        const user = response.user;
+        this.setCurrentUser(user);
+        this.isLoggedInSubject.next(true);
+      })
+    );
   }
-  private apiUrl = 'http://localhost:8000/api';
-
- 
 
   getToken(): string | null {
     return this.token;
@@ -29,43 +39,43 @@ export class AuthServiceService {
 
   setToken(token: string | null): void {
     this.token = token;
+    localStorage.setItem('token', token || '');
   }
-  logout(token: string | null): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    });
-    return this.http.post<any>(`${this.apiUrl}/logout`, null, { headers })
-      .pipe(
-        catchError((error) => {
-          console.error(error);
-          return throwError(error);
-        })
-      );
+
+  logout(): void {
+    this.token = null;
+    localStorage.removeItem('token');
+    this.currentUserSubject.next(null);
+    this.isLoggedInSubject.next(false);
   }
+
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
   public isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
-
-  isLoggedIn(): boolean {
-    const token = localStorage.getItem('token');
-    return !!token; // return true if token exists, false otherwise
+  public setCurrentUser(user: any): void {
+    this.currentUserSubject.next(user);
   }
 
-  getUserRole($token?: string): string {
+  public getCurrentUser(): any {
+    return this.currentUserSubject.value;
+  }
 
-    if ($token) {
-      const decodedToken = jwt_decode($token) as { roles: string[] };
-      const roles = decodedToken.roles;
-      if (roles.includes("Centre D'appel")) {
-        return  "Centre D'appel";
-      } else if (roles.includes('admin')) {
-        return   'admin';
-      } else if (roles.includes('user')) {
-        return   'user';
-      }
+  public isLoggedIn(): boolean {
+    const token = this.getToken();
+    if (token) {
+      const decodedToken = jwt_decode(token) as { roles: string[], exp: number };
+      const expirationDate = new Date(decodedToken.exp * 1000);
+      return expirationDate > new Date();
     }
-    console.log('getUserRole');
-    return '';
+    return false;
+  }
+  public isAdmin(): boolean {
+    const token = this.getToken();
+    if (token) {
+      const decodedToken = jwt_decode(token) as { roles: string[] };
+      const roles = decodedToken.roles;
+      return roles.includes('admin');
+    }
+    return false;
   }
 }
