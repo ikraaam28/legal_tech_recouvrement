@@ -43,8 +43,10 @@ export class UsersService {
   }
   getUser(id:number): Observable<any> {
     const url = `${this.baseUrl}/api/getuser/${id}`;
+    const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
     });
     return this.http.get(url, { headers });
   }

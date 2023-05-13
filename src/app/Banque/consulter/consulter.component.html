@@ -1,3 +1,4 @@
+
 <div class="col-md-6 mx-3">
   <app-navbar></app-navbar>
 </div><!--
@@ -50,7 +51,7 @@ Listes Des Impayées
 <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z" fill="currentColor"/>
 </svg>
 </span>
-<!--end::Svg Icon-->                <input type="text" data-kt-ecommerce-product-filter="search" class="form-control form-control-solid w-250px ps-14" placeholder="Search Product" />
+<!--end::Svg Icon-->  <input type="text" id="search" [(ngModel)]="searchTerm" data-kt-ecommerce-product-filter="search" class="form-control form-control-solid w-250px ps-14" placeholder="Chercher Fiche impayée" />
   </div>
   <!--end::Search-->
 </div>
@@ -73,10 +74,9 @@ Listes Des Impayées
 
     </div>
 <!--begin::Export-->
-                              <button class="btn btn-primary mx-2" (click)="fileInput.click()" >Importer</button>
-    <input type="file" #fileInput style="display:none" (change)="onFileSelected($event)">
-                              <!--end::Export-->
-                              
+<input type="file" (change)="onFileSelected($event)">
+<button type="button" class="btn btn-primary"  (click)="onUpload()">Importer</button>
+
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2">
                                   Ajouter Impayée
                                 </button>
@@ -92,39 +92,39 @@ Listes Des Impayées
                                       </div>
                                       <div class="modal-body">
                                         
-                                        <form [formGroup]="Empregister" >
-                                          <mat-stepper [linear]="isLinear" #stepper>
+                                        <form [formGroup]="Empregister" style="background-color: white;" >
+                                          <mat-stepper [linear]="isLinear" #stepper >
                                             <mat-step [stepControl]="Basicform">
-                                              <ng-template matStepLabel>Informations de base</ng-template>
+                                              <ng-template matStepLabel   >Informations de base</ng-template>
                                               <div formGroupName="basic">
                                                 <mat-form-field appearance="fill" class="champleft">
-                                                  <mat-label>Nom</mat-label>
+                                                  <mat-label style="color: black;">Nom</mat-label>
                                                   <input matInput placeholder="Nom" formControlName="nom">
                                                 </mat-form-field>
                                         
                                                 <mat-form-field appearance="fill" class="champright">
-                                                  <mat-label>Prénom</mat-label>
+                                                  <mat-label style="color: black;">Prénom</mat-label>
                                                   <input matInput placeholder="Prénom" formControlName="prenom">
                                                 </mat-form-field>
                                                 <br>
                                                 <mat-form-field appearance="fill" class="champleft">
-                                                  <mat-label>CIN</mat-label>
+                                                  <mat-label style="color: black;">CIN</mat-label>
                                                   <input matInput placeholder="CIN" formControlName="cin">
                                                 </mat-form-field>
                                         
                                                 <mat-form-field appearance="fill" class="champright">
-                                                  <mat-label>Adresse</mat-label>
+                                                  <mat-label style="color: black;">Adresse</mat-label>
                                                   <input matInput placeholder="Adresse" formControlName="adresse">
                                                 </mat-form-field>
                                                 <br>
                                         
                                                 <mat-form-field appearance="fill" class="champleft">
-                                                  <mat-label>Numéro de téléphone</mat-label>
+                                                  <mat-label style="color: black;">Numéro de téléphone</mat-label>
                                                   <input matInput placeholder="Numéro de téléphone" formControlName="tel">
                                                 </mat-form-field>
                                         
                                                 <mat-form-field appearance="fill" class="champright">
-                                                  <mat-label>Adresse e-mail</mat-label>
+                                                  <mat-label style="color: black;">Adresse e-mail</mat-label>
                                                   <input matInput placeholder="Adresse e-mail" formControlName="email">
                                                 </mat-form-field>
                                         
@@ -206,27 +206,22 @@ Listes Des Impayées
 <!--begin::Table row-->
 <tr class="text-start text-gray-400 fw-bold fs-7  text-uppercase gs-0">
   
-  <th class="align-items-center min-w-100px">Nom & Prénom </th>
+  <th class="align-items-center min-w-100px">Nom </th>
+  <th class="align-items-center min-w-100px">Prénom </th>
   <th class="align-items-center min-w-100px">Cin </th>
-  <th class="align-items-center min-w-100px">Adresse </th>
+ 
   <th class="align-items-center min-w-100px">Téléphone </th>
   <th class="align-items-center min-w-100px">Email </th>
-  <th class="align-items-center min-w-100px">Montant créances </th>
-  <th class="align-items-center min-w-100px">Objet Créances </th>
-  <th class="align-items-center min-w-100px">Montant échéances </th>
-  <th class="align-items-center min-w-100px">Nombre échéances </th>
-  <th class="align-items-center min-w-100px">Note Banque</th>
-  <th class="align-items-center min-w-100px">Banque</th>
-  <th class="align-items-center min-w-70px">Actions</th>
+  
 </tr>
 <!--end::Table row-->
 </thead>
 <!--end::Table head-->
 
 <!--begin::Table body-->
-<tbody class="fw-semibold  fs-7 text-gray-600">
+<tbody class="fw-semibold  fs-7 text-gray-600" id="tab" >
           <!--begin::Table row-->
-  <tr  *ngFor="let ficheimpaye of FicheImpayelist">
+  <tr  *ngFor="let ficheimpaye of FicheImpayelist | filter:searchTerm">
       <!--begin::Checkbox-->
       <td>
         <div class="d-flex align-items-center">
@@ -273,58 +268,7 @@ Listes Des Impayées
           </div>
       </div>
       </td>
-      <td>
-        <div class="d-flex align-items-center">
-          <div class="ms-5">
-              <!--begin::Title-->
-              <p class="text-gray-800 text-hover-primary fs-5 ">{{ficheimpaye.montantCreances}}</p>
-              <!--end::Title-->
-          </div>
-      </div>
-      </td>
-      <td>
-        <div class="d-flex align-items-center">
-          <div class="ms-5">
-              <!--begin::Title-->
-              <p class="text-gray-800 text-hover-primary fs-5 ">{{ficheimpaye.objetCreances}}</p>
-              <!--end::Title-->
-          </div>
-      </div>
-      </td>
-      <td>
-        <div class="d-flex align-items-center">
-          <div class="ms-5">
-              <!--begin::Title-->
-              <p class="text-gray-800 text-hover-primary fs-5 ">{{ficheimpaye.montantEcheances}}</p>
-              <!--end::Title-->
-          </div>
-      </div>
-      </td>
-      <td>
-        <div class="d-flex align-items-center">
-          <div class="ms-5">
-              <!--begin::Title-->
-              <p class="text-gray-800 text-hover-primary fs-5 ">{{ficheimpaye.nombreEcheances}}</p>
-              <!--end::Title-->
-          </div>
-      </div>
-      </td>
-      <td>
-        <div class="d-flex align-items-center">
-          <div class="ms-5">
-              <!--begin::Title-->
-              <p class="text-gray-800 text-hover-primary fs-5 ">{{ficheimpaye.noteBanque}}</p>
-              <!--end::Title-->
-          </div>
-      </div>
-      </td>
-      <td>
-        <div class="d-flex align-items-center">
-          <div class="ms-5">
-              <p class="text-gray-800 text-hover-primary fs-5 ">{{ficheimpaye.user.nom}} {{ficheimpaye.user.prenom}}</p>
-          </div>
-      </div>
-      </td>
+      
       <td class="text-end">
         <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -345,3 +289,4 @@ Listes Des Impayées
 
   
 </div></div></div></div></div></div>
+

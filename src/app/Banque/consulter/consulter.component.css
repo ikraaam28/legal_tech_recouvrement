@@ -1,5 +1,6 @@
 
 .form-popup,
+
 .success-message {
     display: none;
     width: 100%;
@@ -149,3 +150,6 @@ igx-radio {
     color: #0456ad ;
     font-size: 20px;
 }
+th {
+    padding: 10px; /* ajuster la valeur de padding en fonction de la distance souhaitée */
+  }

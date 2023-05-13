@@ -20,7 +20,10 @@ export class NotesComponent {
 
   myForm: FormGroup;
   ficheimpaye!: FicheImpaye;
-  note! : Notes ;
+  note = new Notes({
+    ficheImpaye: null,
+    user: null,
+  });
   user! : User;
   constructor(private fb: FormBuilder, private userservice : UsersService,private ficheimpayeservice: FicheImpayeService, private fichierservice: FichiersService,private router: ActivatedRoute, private noteservice: NotesService) {
     this.myForm = this.fb.group({
@@ -31,31 +34,46 @@ export class NotesComponent {
       pv_creance: [''],
       enregistrement: ['']
     });
-    let idfiche = this.router.snapshot.paramMap.get('id');
-    this.ficheimpayeservice.GetFicheImpaye(Number(idfiche)).subscribe(
-      (res) =>{
-        this.ficheimpaye = res;
-        this.note.ficheImpaye= res;
-        console.log(this.note.ficheImpaye);
-      }
-    );
-   
-    
-    let $user_id = localStorage.getItem('id');
-    this.userservice.getUser(Number($user_id)).subscribe(
-      (res) =>{
-        this.user = res;
-        this.note.userId = res;
-        console.log(this.note.userId)
-      }
-    )
-    
-    this.noteservice.registernotes(this.note).subscribe(
-      (res)=>{
-        console.log('note ajouter');
-      }
-    )
+
   }
+  
+  ngOnInit() {
+/*
+    let idfiche = this.router.snapshot.paramMap.get('id');
+console.error("idfiche = ", idfiche)
+    this.ficheimpayeservice.GetFicheImpaye(Number(idfiche)).subscribe((res) => {
+      this.ficheimpaye = res;
+      this.note.ficheImpaye = res;
+     console.log('************************* 1')
+      console.log(" res of fiche impaye = ", res);
+      console.error("ficheimpaye  ",this.ficheimpaye);
+    console.error("user = ",this.user);
+    console.error("note  ",this.note);
+    });
+    let user_id = localStorage.getItem('id');
+  
+    this.userservice.getUser(Number(user_id)).subscribe((res) => {
+      this.user = res;
+      this.note.user= res;
+      console.log('********************* 2')
+      console.log("res of user ", res);
+      console.error("ficheimpaye  ",this.ficheimpaye);
+    console.error("user = ",this.user);
+    console.error("note  ",this.note);
+    });
+    
+    console.error("ficheimpaye  ",this.ficheimpaye);
+    console.error("user = ",this.user);
+    console.error("note  ",JSON.stringify(this.note));
+    */
+    let user_id = localStorage.getItem('id');
+    let idfiche = this.router.snapshot.paramMap.get('id');
+    console.log(user_id, idfiche);
+    this.noteservice.registernotes(Number(user_id),Number(idfiche) ).subscribe((res) => {
+      console.log('note added');
+    });
+  }
+
   Submit(){
     const userData: Fichiers = {
       commentaire: this.myForm.value.commentaire ?? '',

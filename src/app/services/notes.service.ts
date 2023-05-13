@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Notes } from '../Models/Notes';
@@ -10,13 +10,12 @@ export class NotesService {
   private baseUrl = 'http://127.0.0.1:8000'; // Replace with your API endpoint
 
   constructor(private http: HttpClient) {}
-
-  registernotes(userData: Notes): Observable<any> {
+  registernotes(user_id: number, idfiche:number): Observable<any> {
     const url = `${this.baseUrl}/notes/notecreated`;
-    const body = JSON.stringify(userData);
-    const headers = new HttpHeaders ({ 
-      'Content-Type': 'application/json' });
-    return this.http.post(url, body, { headers });
+    const params = new HttpParams().set("user_id", user_id.toString())
+                                   .set("idfiche", idfiche.toString());
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(url, null, { headers: headers, params: params });
   }
   Updatenotes(id:number, userData: Notes): Observable<any> {
     const url = `${this.baseUrl}/notes/${id}`;

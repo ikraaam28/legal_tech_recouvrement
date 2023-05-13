@@ -34,9 +34,10 @@ import { FicheComponent } from './fiche/fiche.component';
 import { NotesComponent } from './fiche/notes/notes.component';
 import { CalendreierComponent } from './fiche/calendreier/calendreier.component';
 import { UserCardComponent } from './fiche/user-card/user-card.component';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 @NgModule({
   declarations: [
-
+    AppComponent,
     DashboardComponent,
     LoginComponent,
     ConsulterComponent,
@@ -54,7 +55,7 @@ import { UserCardComponent } from './fiche/user-card/user-card.component';
     NavbarComponent,
     NotesComponent,
     UserCardComponent,
-    AppComponent,
+    
     
   ],
   imports: [
@@ -71,6 +72,7 @@ import { UserCardComponent } from './fiche/user-card/user-card.component';
     HttpClientModule, 
     BrowserAnimationsModule, 
     BrowserModule,
+    Ng2SearchPipeModule
   ],
   
   providers: [{provide: HTTP_INTERCEPTORS, useClass:TokenInterceptorService,multi:true}],

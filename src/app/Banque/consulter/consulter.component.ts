@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, PipeTransform } from '@angular/core';
 import * as XLSX from 'xlsx';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FicheImpayeService } from 'src/app/services/fiche-impaye.service';
@@ -8,34 +8,79 @@ import { AuthServiceService } from 'src/app/services/auth-service.service';
 
 import jwt_decode from 'jwt-decode';
 import { Notes } from 'src/app/Models/Notes';
+import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-consulter',
   templateUrl: './consulter.component.html',
   styleUrls: ['./consulter.component.css']
 })
-export class ConsulterComponent  {
+export class ConsulterComponent implements PipeTransform  {
   FicheImpayelist: any;
-  
+  selectedFile: File | null = null;
+  fileName = '';
+
 isLinear=true;
-    onFileSelected(event: any) {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onload = (e: any) => {
-      const data = new Uint8Array(e.target.result);
-      const workbook = XLSX.read(data, { type: 'array' });
-      const sheetName = workbook.SheetNames[0];
-      const worksheet = workbook.Sheets[sheetName];
-      const excelData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-      console.log(excelData);
-    };
-    reader.readAsArrayBuffer(file);
-  }
+isUploading = false;
   //Form Validables 
 registerForm!: FormGroup;
 submitted = false;
-constructor( private formBuilder: FormBuilder, private ficheImpayeService: FicheImpayeService,private authservice : AuthServiceService){
+searchTerm !: string;
+
+filteredFicheImpayelist: FicheImpaye[] | undefined;
+
+constructor( private formBuilder: FormBuilder, private ficheImpayeService: FicheImpayeService,private authservice : AuthServiceService,private http: HttpClient,private router: ActivatedRoute){
 }
+transform(value: any[], searchText: string): any[] {
+  if (!value) return [];
+  if (!searchText) return value;
+  searchText = searchText.toLowerCase();
+  return value.filter((ficheimpaye) => {
+    return Object.keys(ficheimpaye).some(key => {
+      return ficheimpaye[key].toString().toLowerCase().includes(searchText);
+    });
+  });
+}
+onFileSelected(event: any) {
+  this.selectedFile = event.target.files[0];
+}
+
+onUpload(): void {
+  if (!this.selectedFile) {
+    console.error('Aucun fichier sélectionné');
+    return;
+  }
+
+  if (this.selectedFile.size === 0) {
+    console.error('Le fichier est vide');
+    return;
+  }
+
+  const allowedMimeTypes = [
+    
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' // xlsx
+  ];
+
+  if (!allowedMimeTypes.includes(this.selectedFile.type)) {
+    console.error('Le fichier doit être un fichier Excel valide');
+    return;
+  }
+  let user_id = localStorage.getItem('id');
+
+  console.log(user_id);
+  this.ficheImpayeService.uploadFile(this.selectedFile,Number(user_id))
+    .subscribe(
+      (res) => {
+        console.log('Fichier importé avec succès');
+        console.log(res); // logs the response from the backend
+      },
+      error => {
+        console.error('Erreur lors de l\'importation du fichier', error);
+      }
+    );
+}
+
 //Add user form actions
 get f() { return this.registerForm.controls; }
 
@@ -54,16 +99,19 @@ deleteFiche(id: number) {
   ngOnInit() {
     this.ficheImpayeService.getFichesImpayes().subscribe(result => {
       this.FicheImpayelist = result;
+     
     });
-
+   
+  
     //Add User form validations
     
     this.registerForm = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
     });
+    
   }
-
+ 
   Empregister = this.formBuilder.group({
     basic: this.formBuilder.group({
       nom:this.formBuilder.control('',Validators.required),

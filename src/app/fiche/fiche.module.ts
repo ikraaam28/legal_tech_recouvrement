@@ -18,7 +18,7 @@ import { AppComponent } from '../app.component';
 
 @NgModule({
   declarations: [
-    FicheComponent,
+    
     CalendreierComponent,
     PrintComponent,
     NavbarComponent,
@@ -36,6 +36,6 @@ import { AppComponent } from '../app.component';
     MatIconModule,
   ],
   exports: [
-    FicheComponent,]
+   ]
 })
 export class FicheModule { }
