@@ -7,12 +7,13 @@ import { ResetpasswordComponent } from './authentification/resetpassword/resetpa
 import { AjoutComponent } from './Banque/ajout/ajout.component';
 import { ConsulterComponent } from './Banque/consulter/consulter.component';
 import { HomeComponent } from './Banque/home/home.component';
-import { FicheComponent } from './fiche/fiche.component';
+
 import { LandingComponent } from './landing/landing.component';
 import { CallcenterComponent } from './callcenter/callcenter.component';
-import { CalendarComponent } from './callcenter/calendar/calendar.component';
+
 import { AccountComponent } from './account/account.component';
 import { AuthGuard } from './guards/auth.guard';
+import { FicheComponent } from './fiche/fiche.component';
 
 
 
@@ -20,16 +21,15 @@ const routes: Routes = [
   {path: 'login', component:LoginComponent},
   {path:'resetpassword', component:ResetpasswordComponent},
   {path:'newpassword',component:NewpasswordComponent},
-  {path:'home',component:HomeComponent},
-  {path:'ajout',component:AjoutComponent },
-  {path:'consulter',component:ConsulterComponent },
-  {path:'fiche',component:FicheComponent},
+  {path:'home',component:HomeComponent, canActivate: [AuthGuard]},
+  {path:'ajout',component:AjoutComponent, canActivate: [AuthGuard] },
+  {path:'consulter',component:ConsulterComponent, canActivate: [AuthGuard] },
+  {path:'fiche/:id',component:FicheComponent},
+  {path:'admin', component: AdminComponent, canActivate: [AuthGuard]},
   {path:'',component:LandingComponent},
-  {path:'admin',component:AdminComponent},
   {path:'callcenter',component:CallcenterComponent},
-  {path:'calendar',component:CalendarComponent},
-  {path:'account',component:AccountComponent}
-  
+  {path:'account',component:AccountComponent, canActivate: [AuthGuard]},
+
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

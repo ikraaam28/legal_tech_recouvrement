@@ -73,9 +73,11 @@ export class AdminComponent implements OnInit {
         this.userData.roles = ['Avocat'];
         break;
       default:
-        this.userData.roles = [];
+        this.userData.roles = ['admin'];
         break;
     }
+    console.log(this.selectedOption);
+    console.log(this.userData.roles);
   }
   onRadioClick(option: string) {
     this.selectedOption = option;
@@ -130,24 +132,8 @@ export class AdminComponent implements OnInit {
   onSubmit() {
     if(this.createUser){
     this.registerForm.reset(); 
-      // Get the selected role
-  switch (this.selectedOption) {
-    case 'option1':
-      this.userData.roles = ['Banque'];
-      break;
-    case 'option2':
-      this.userData.roles = ['Centre D\'appel'];
-      break;
-    case 'option3':
-      this.userData.roles = ['Agent Sur Terrain'];
-      break;
-    case 'option4':
-      this.userData.roles = ['Avocat'];
-      break;
-    default:
-      this.userData.roles = [];
-      break;
-  }
+   console.log(this.userData)
+   console.log(this.userData.id_unique)
     this.submitted = true;
     this.userService.registerUser(this.userData).subscribe(
       (response: any) => {
