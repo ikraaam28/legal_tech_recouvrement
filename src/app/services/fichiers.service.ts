@@ -11,8 +11,8 @@ export class FichiersService {
 
   constructor(private http: HttpClient) {}
 
-  registerfichiers(userData: Fichiers): Observable<any> {
-    const url = `${this.baseUrl}/fichiers/fichiercreated`;
+  registerfichiers(userData: Fichiers, id:number): Observable<any> {
+    const url = `${this.baseUrl}/fichiers/fichiercreated/${id}`;
     const body = JSON.stringify(userData);
     const headers = new HttpHeaders ({ 
       'Content-Type': 'application/json' });
