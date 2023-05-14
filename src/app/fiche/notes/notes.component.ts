@@ -20,19 +20,16 @@ export class NotesComponent {
 
   myForm: FormGroup;
   ficheimpaye!: FicheImpaye;
-  note = new Notes({
-    ficheImpaye: null,
-    user: null,
-  });
+   note!: number;
   user! : User;
   constructor(private fb: FormBuilder, private userservice : UsersService,private ficheimpayeservice: FicheImpayeService, private fichierservice: FichiersService,private router: ActivatedRoute, private noteservice: NotesService) {
     this.myForm = this.fb.group({
       commentaire: [''],
-      fichier: [''],
-      jugement: [''],
-      pv_execution: [''],
-      pv_creance: [''],
-      enregistrement: ['']
+      fichier:null ,
+      jugement:null,
+      pv_execution:null ,
+      pv_creance:null ,
+      enregistrement: null
     });
 
   }
@@ -66,34 +63,32 @@ console.error("idfiche = ", idfiche)
     console.error("user = ",this.user);
     console.error("note  ",JSON.stringify(this.note));
     */
-    let user_id = localStorage.getItem('id');
-    let idfiche = this.router.snapshot.paramMap.get('id');
-    console.log(user_id, idfiche);
-    this.noteservice.registernotes(Number(user_id),Number(idfiche) ).subscribe((res) => {
-      console.log('note added');
-    });
+ 
   }
 
   Submit(){
+    let user_id = localStorage.getItem('id');
+    let idfiche = this.router.snapshot.paramMap.get('id');
     const userData: Fichiers = {
       commentaire: this.myForm.value.commentaire ?? '',
-      enregistrement: this.myForm.value.enregistrement ?? null,
-      fichier: this.myForm.value.fichiers ?? null,
-      jugement: this.myForm.value.jugement ?? null,
-      pv_execution: this.myForm.value.pv_execution ?? null,
-      pv_creance: this.myForm.value.pv_creance ?? null,
-      notes_id: this.note,
+      enregistrement: this.myForm.value.enregistrement.files[0]?? null,
+      fichier: this.myForm.value.fichiers.files[0] ?? null,
+      jugement: this.myForm.value.jugement.files[0] ?? null,
+      pv_execution: this.myForm.value.pv_execution.files[0] ?? null,
+      pv_creance: this.myForm.value.pv_creance.files[0] ?? null,
       created_at: new Date(),
       updated_at: new Date(),
     };
-    
-        this.fichierservice.registerfichiers(userData).subscribe(
-          response => {
-            console.log('register fichiers '); // Handle the response here
-          },
-          error => {
-            console.log(error); // Handle the error here
-          }
-        );
+    this.noteservice.registernotes(Number(user_id),Number(idfiche) ).subscribe((res) => {
+      this.note=res.id;
+      this.fichierservice.registerfichiers(userData, this.note).subscribe(
+        response => {
+          alert('register fichiers ');
+        },
+        error => {
+          alert(error);
+        }
+      );
+    });
       }  
 }
