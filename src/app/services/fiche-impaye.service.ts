@@ -11,13 +11,16 @@ export class FicheImpayeService {
 
   constructor(private http: HttpClient) { }
 
-  registerFicheImpaye(userData: FicheImpaye, id:number): Observable<any> {
-    
+  registerFicheImpaye(userData: FicheImpaye, id: number, formData: FormData | null): Observable<any> {
     const url = `${this.baseUrl}/ficheImpaye/ficheImpayecreated/${id}`;
-    const body = JSON.stringify(userData);
-    const headers = new HttpHeaders ({ 
-      'Content-Type': 'application/json' });
-    return this.http.post(url, body, { headers });
+    
+    if (formData) {
+      formData.append('justificatif_creances', userData.justificatif_creances);
+      formData.append('userData', JSON.stringify(userData));
+      console.log(userData.justificatif_creances);
+    }
+    
+    return this.http.post(url, formData);
   }
   uploadFile(file: File, id:number): Observable<any> {
     const formData = new FormData();

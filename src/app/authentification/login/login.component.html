@@ -1,13 +1,49 @@
 
 
-
-<body id="kt_body" class="app-blank bgi-size-cover bgi-position-center">
+<!--begin::Header-->
+<div class="landing-header" data-kt-sticky="true" data-kt-sticky-name="landing-header" data-kt-sticky-offset="{default: '200px', lg: '300px'}">
+	<!--begin::Container-->
+	<div class="container">
+		<!--begin::Wrapper-->
+		<div class="d-flex align-items-center justify-content-between">
+			<!--begin::Logo-->
+			<div class="d-flex align-items-center flex-equal">
+				<!--begin::Mobile menu toggle-->
+				<button class="btn btn-icon btn-active-color-primary me-3 d-flex d-lg-none" id="kt_landing_menu_toggle">
+					<!--begin::Svg Icon | path: icons/duotune/abstract/abs015.svg-->
+					<span class="svg-icon svg-icon-2hx">
+						<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M21 7H3C2.4 7 2 6.6 2 6V4C2 3.4 2.4 3 3 3H21C21.6 3 22 3.4 22 4V6C22 6.6 21.6 7 21 7Z" fill="currentColor" />
+							<path opacity="0.3" d="M21 14H3C2.4 14 2 13.6 2 13V11C2 10.4 2.4 10 3 10H21C21.6 10 22 10.4 22 11V13C22 13.6 21.6 14 21 14ZM22 20V18C22 17.4 21.6 17 21 17H3C2.4 17 2 17.4 2 18V20C2 20.6 2.4 21 3 21H21C21.6 21 22 20.6 22 20Z" fill="currentColor" />
+						</svg>
+					</span>
+					<!--end::Svg Icon-->
+				</button>
+				<!--end::Mobile menu toggle-->
+				<!--begin::Logo image-->
+				<a routerLink="/">
+					<img alt="Logo" src="assets/media/logos/recouvrement.png" class="logo-default h-50px h-lg-70px" />
+					<img alt="Logo" src="assets/media/logos/recouvrement.png" class="logo-sticky h-40px h-lg-60px" />
+				</a>
+				<!--end::Logo image-->
+			</div>
+			<!--end::Logo-->
+			
+			
+		</div>
+		<!--end::Wrapper-->
+	</div>
+	<!--end::Container-->
+</div>
+<!--end::Header--><div  style="margin-top: -40px;" >
+<body id="kt_body" class="app-blank bgi-size-cover bgi-position-center" >
 	<div class="d-flex flex-column flex-root" id="kt_app_root">
 	  <div class="d-flex flex-column flex-lg-row flex-column-fluid">
 		<div class="d-flex flex-lg-row-fluid">
 		  <div class="d-flex flex-column flex-center pb-0 pb-lg-10 p-10 w-100">
 			<img class="theme-light-show mx-auto mw-100 w-150px w-lg-300px mb-10 mb-lg-20" src="assets/media/auth/agency-dark.png" alt="" />
-			<img class="theme-dark-show mx-auto mw-100 w-150px w-lg-300px mb-10 mb-lg-20" src="assets/media/auth/agency-dark.png" alt="" />
+			<img class="theme-dark-show mx-auto mw-100 w-150px w-lg-300px mb-10 mb-lg-20" src="assets/media/auth/agency-dark.png" alt="" /> 
+			<img  src="/src/assets/media/logos/recouvrement.png" alt="" />
 			<h1 class="fs-2qx fw-bold text-center mb-7 text-primary">LegalTech Recouvrement</h1>
 		  </div>
 		</div>
@@ -16,45 +52,52 @@
 			<div class="d-flex flex-center flex-column align-items-stretch h-lg-100 w-md-600px">
 			  <div class="d-flex flex-center flex-column-fluid pb-15 pb-lg-20">
 				<form [formGroup]="loginForm" class="form w-100" (ngSubmit)="login()">
-				  <div class="text-center mb-11">
-					<h1 class="fw-bolder mb-3 text-primary">Se Connecter</h1>
-					<div class="text-gray-500 fw-semibold fs-6">LegalTech Votre Accompagnant</div>
-				  </div>
-				
-				  <div class="fv-row mb-5">
-					<input type="email" placeholder="Email" formControlName="email" class="form-control bg-transparent" [class.is-invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" />
-					<div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="invalid-feedback">
-					  <div *ngIf="loginForm.get('email')?.hasError('required')">Email Obligatoire</div>
-					  <div *ngIf="loginForm.get('email')?.hasError('email')">Enter Un Valide Email</div>
+					<div class="text-center mb-11">
+					  <h1 class="fw-bolder mb-3 text-primary">Se Connecter</h1>
+					  <div class="text-gray-500 fw-semibold fs-6">LegalTech Votre Accompagnant</div>
 					</div>
-				  </div>
-				  <br>
-				  <br>
-				 
-				  <div class="fv-row mb-5">
-					<input  type="password" placeholder="Mot de passe" formControlName="password" class="form-control bg-transparent" [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" />
-					<div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="invalid-feedback">
-					  <div *ngIf="loginForm.get('password')?.hasError('required')">Mot De Passe Obligatoire!
+				  
+					<div class="fv-row mb-5">
+					  <input type="email" placeholder="Email" formControlName="email" class="form-control bg-transparent"
+						[class.is-invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" />
+					  <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="invalid-feedback">
+						<div *ngIf="loginForm.get('email')?.hasError('required')">Email Obligatoire</div>
+						<div *ngIf="loginForm.get('email')?.hasError('email')">Enter Un Valide Email</div>
 					  </div>
 					</div>
-				  </div>
-				  <br>
-				  <br>
+					<br>
+					<br>
 				  
-				  <div class="d-flex flex-stack flex-wrap gap-3 fs-base fw-semibold mb-5">
-					<a routerLink="/resetpassword" class="link-primary">Mot de passe oublié?</a>
-				  </div>
+					<div class="fv-row mb-5">
+					  <input type="password" placeholder="Mot de passe" formControlName="password" class="form-control bg-transparent"
+						[class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" />
+					  <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="invalid-feedback">
+						<div *ngIf="loginForm.get('password')?.hasError('required')">Mot De Passe Obligatoire!</div>
+					  </div>
+					</div>
+					<br>
+					<br>
+				  
+					<div class="d-flex flex-stack flex-wrap gap-3 fs-base fw-semibold mb-5">
+					  <a routerLink="/resetpassword" class="link-primary">Mot de passe oublié?</a>
+					</div>
+					  <!-- Add the reCAPTCHA widget -->
+  <div class="fv-row mb-5">
+    <re-captcha formControlName="recaptcha" siteKey="6LdOjxMmAAAAAHiJJM7CtAmhW9HjeogQPB3E3lAi"></re-captcha>
+    <div *ngIf="loginForm.get('recaptcha')?.invalid && loginForm.get('recaptcha')?.touched" class="invalid-feedback">
+      <div *ngIf="loginForm.get('recaptcha')?.hasError('required')">Please complete the reCAPTCHA.</div>
+    </div>
+  </div>
 				
-				
-				  <div class="d-grid gap-2 mb-10">
-					<button type="submit" id="kt_sign_in_submit" class="btn btn-primary" [disabled]="loginForm.invalid">
-					  <span class="indicator-label">Se Connecter</span>
-					  <span class="indicator-progress">
-						Attendez S'il Vous Plait...<span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-					  </span>
-					</button>
-				  </div>
-				</form>
+					<div class="d-grid gap-2 mb-10">
+					  <button type="submit" id="kt_sign_in_submit" class="btn btn-primary" [disabled]="loginForm.invalid">
+						<span class="indicator-label">Se Connecter</span>
+						<span class="indicator-progress">
+						  Attendez S'il Vous Plait...<span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+						</span>
+					  </button>
+					</div>
+				  </form>
 				
 				
 			</div> 
@@ -63,4 +106,4 @@
 	  </div>
 	</div>
 	</div>
-</body>
+</body></div>
