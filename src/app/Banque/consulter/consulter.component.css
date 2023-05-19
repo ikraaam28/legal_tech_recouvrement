@@ -153,3 +153,6 @@ igx-radio {
 th {
     padding: 10px; /* ajuster la valeur de padding en fonction de la distance souhaitée */
   }
+ngx-mat-file-input input[type="file"] {
+    display: none;
+  }

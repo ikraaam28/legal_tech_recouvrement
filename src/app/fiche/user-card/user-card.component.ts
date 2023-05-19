@@ -8,4 +8,5 @@ import { FicheImpaye } from 'src/app/Models/FicheImpaye';
 export class UserCardComponent {
   @Input() fiche!: FicheImpaye;
   showDetails = false;
+  
 }

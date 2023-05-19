@@ -43,7 +43,7 @@ export class FicheComponent {
   ngOnInit(): void {
     // Retrieve the id of the fiche from the URL parameter
     let id = this.router.snapshot.paramMap.get('id');
-
+console.log(id);
     // Call the service to get the fiche with the corresponding id
     this.ficheImpayeService.GetFicheImpaye(Number(id)).subscribe(
       (response: any) => {

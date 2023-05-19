@@ -42,6 +42,7 @@ export class HomeComponent {
      }
     
    }
+   
      ngOnInit() {
        //Add User form validations
        this.registerForm = this.formBuilder.group({

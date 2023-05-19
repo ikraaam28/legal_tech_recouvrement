@@ -16,7 +16,13 @@ export class AuthServiceService {
 
   private API_URL = 'http://127.0.0.1:8000/login';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.token = localStorage.getItem('token');
+    if (this.isLoggedIn()) {
+      this.isLoggedInSubject.next(true);
+      this.currentUserSubject.next(this.getCurrentUser());
+    }
+   }
 
   login(email: string, password: string): Observable<any> {
     return this.http.post<LoginResponse>(this.API_URL, {
@@ -56,9 +62,16 @@ export class AuthServiceService {
     this.currentUserSubject.next(user);
   }
 
-  public getCurrentUser(): any {
-    return this.currentUserSubject.value;
-  }
+  getCurrentUser(): any {
+    const token = this.getToken();
+    if (token) {
+      const decodedToken = jwt_decode(token) as { user_id: number };
+      const userId = decodedToken.user_id;
+      // Replace the following line with code to fetch the user from your API
+      return userId ;
+    }
+    return null;
+}
 
   public isLoggedIn(): boolean {
     const token = this.getToken();

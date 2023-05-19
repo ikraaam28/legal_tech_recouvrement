@@ -1,16 +1,9 @@
 import { Component, PipeTransform } from '@angular/core';
-import * as XLSX from 'xlsx';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FicheImpayeService } from 'src/app/services/fiche-impaye.service';
 import { FicheImpaye } from 'src/app/Models/FicheImpaye';
-import { Token } from '@angular/compiler';
-import { AuthServiceService } from 'src/app/services/auth-service.service';
-
-import jwt_decode from 'jwt-decode';
-import { Notes } from 'src/app/Models/Notes';
-import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
-
+import { Modal } from 'bootstrap';
+import Stepper from 'bs-stepper';
 @Component({
   selector: 'app-consulter',
   templateUrl: './consulter.component.html',
@@ -20,6 +13,11 @@ export class ConsulterComponent implements PipeTransform  {
   FicheImpayelist: any;
   selectedFile: File | null = null;
   fileName = '';
+  multiple: boolean = false;
+  public pageSize: number = 5; // number of items per page
+  public currentPage: number = 1; // current page number
+  public totalItems: number = 0; // total number of items
+  myForm!: FormGroup;
 
 isLinear=true;
 isUploading = false;
@@ -30,7 +28,25 @@ searchTerm !: string;
 
 filteredFicheImpayelist: FicheImpaye[] | undefined;
 
-constructor( private formBuilder: FormBuilder, private ficheImpayeService: FicheImpayeService,private authservice : AuthServiceService,private http: HttpClient,private router: ActivatedRoute){
+constructor( private formBuilder: FormBuilder, private ficheImpayeService: FicheImpayeService){
+}
+
+mounted() {
+  // Get the form element and the stepper object
+  const form = document.getElementById('kt_modal_offer_a_deal_form');
+  const stepperElement = form?.querySelector('[data-kt-stepper="true"]');
+  if (!stepperElement) {
+    console.error('Stepper element not found in DOM');
+    return;
+  }
+  const stepper = new Stepper(stepperElement);
+
+  // Add a click event listener to the "Offer Details" button
+  const offerDetailsBtn = document.getElementById('offer-details-btn');
+  offerDetailsBtn?.addEventListener('click', () => {
+    // Move to the next step
+    stepper.next();
+  });
 }
 transform(value: any[], searchText: string): any[] {
   if (!value) return [];
@@ -42,6 +58,7 @@ transform(value: any[], searchText: string): any[] {
     });
   });
 }
+
 onFileSelected(event: any) {
   this.selectedFile = event.target.files[0];
 }
@@ -68,17 +85,8 @@ onUpload(): void {
   }
   let user_id = localStorage.getItem('id');
 
-  console.log(user_id);
   this.ficheImpayeService.uploadFile(this.selectedFile,Number(user_id))
-    .subscribe(
-      (res) => {
-        console.log('Fichier importé avec succès');
-        console.log(res); // logs the response from the backend
-      },
-      error => {
-        console.error('Erreur lors de l\'importation du fichier', error);
-      }
-    );
+    .subscribe();
 }
 
 //Add user form actions
@@ -96,23 +104,145 @@ deleteFiche(id: number) {
     );
   }
 }
-  ngOnInit() {
-    this.ficheImpayeService.getFichesImpayes().subscribe(result => {
-      this.FicheImpayelist = result;
-     
-    });
-   
-  
-    //Add User form validations
-    
-    this.registerForm = this.formBuilder.group({
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required]],
-    });
-    
+ngOnInit() {
+  this.ficheImpayeService.getFichesImpayes().subscribe(result => {
+    this.FicheImpayelist = result;
+    this.totalItems = this.FicheImpayelist.length;
+  });
+
+  // Add User form validations
+  this.myForm = this.formBuilder.group({
+    one: this.formBuilder.group({
+      nom: ['', Validators.required],
+      prenom: ['', Validators.required],
+      cin: ['', Validators.required],
+      adresse: ['', Validators.required],
+      telephone: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+    }),
+    two: this.formBuilder.group({
+      montant_creances: ['', Validators.required],
+      justificatif_creances: [, Validators.required],
+      objet_creances: ['', Validators.required],
+      montant_echeances: ['', Validators.required],
+      nombre_echeances: ['', Validators.required],
+      note_banque: ['', Validators.required],
+    }),
+  });
+
+  // Set up a change event listener for the justificatif_creances file input
+  this.myForm.get('two.justificatif_creances')?.valueChanges.subscribe(fileList => {
+    const file = fileList[0];
+    if (file) {
+      // Update the value of justificatif_creances control with the file
+      this.myForm.get('two.justificatif_creances')?.setValue(file);
+    }
+  });
+
   }
- 
-  Empregister = this.formBuilder.group({
+  onHireMeClick() {
+    const modalElement = document.getElementById('kt_modal_offer_a_deal');
+    if (modalElement) {
+      const modal = new Modal(modalElement);
+    
+      // Get the form and the buttons
+      const form = document.getElementById('kt_modal_offer_a_deal_form');
+      const typeNextButton = document.querySelector('[data-kt-element="type-next"]');
+      const detailsNextButton = document.querySelector('[data-kt-element="details-next"]');
+      const financePrevButton = document.querySelector('[data-kt-element="finance-previous"]');
+      const financeNextButton = document.querySelector('[data-kt-element="finance-next"]');
+      
+    
+      // Add event listeners to the buttons
+      if (typeNextButton) {
+        typeNextButton.addEventListener('click', () => {
+          // Show the next step of the form
+          const currentStep = document.querySelector('.current[data-kt-stepper-element="content"]');
+          const nextStep = document.querySelector('[data-kt-stepper-element="content"]:not(.current)');
+          if (currentStep && nextStep) {
+            currentStep.classList.remove('current');
+            nextStep.classList.add('current');
+          }
+    
+          // Update the active step in the stepper
+          const currentNav = document.querySelector('.current[data-kt-stepper-element="nav"]');
+          const nextNav = document.querySelector('[data-kt-stepper-element="nav"]:not(.current)');
+          if (currentNav && nextNav) {
+            currentNav.classList.remove('current');
+            nextNav.classList.add('current');
+          }
+        });
+      }
+    
+      if (detailsNextButton) {
+        detailsNextButton.addEventListener('click', () => {
+          // Show the next step of the form
+          const currentStep = document.querySelector('.current[data-kt-stepper-element="content"]');
+          const nextStep = document.querySelector('[data-kt-stepper-element="content"]:not(.current)');
+          if (currentStep && nextStep) {
+            currentStep.classList.remove('current');
+            nextStep.classList.add('current');
+          }
+    
+          // Update the active step in the stepper
+          const currentNav = document.querySelector('.current[data-kt-stepper-element="nav"]');
+          const nextNav = document.querySelector('[data-kt-stepper-element="nav"]:not(.current)');
+          if (currentNav && nextNav) {
+            currentNav.classList.remove('current');
+            nextNav.classList.add('current');
+          }
+        });
+      }
+      
+      if (financePrevButton) {
+        financePrevButton.addEventListener('click', () => {
+          // Show the previous step of the form
+          const currentStep = document.querySelector('.current[data-kt-stepper-element="content"]');
+          const prevStep = currentStep ? currentStep.previousElementSibling : null;
+          if (currentStep && prevStep) {
+            currentStep.classList.remove('current');
+            prevStep.classList.add('current');
+          }
+      
+          // Update the active step in the stepper
+          const currentNav = document.querySelector('.current[data-kt-stepper-element="nav"]');
+          const prevNav = currentNav ? currentNav.previousElementSibling : null;
+          if (currentNav && prevNav) {
+            currentNav.classList.remove('current');
+            prevNav.classList.add('current');
+          }
+        });
+      }
+      if (financeNextButton) {
+        financeNextButton.addEventListener('click', () => {
+          // Check if the button should go to the previous or done step
+          const isPreviousStep = financeNextButton.classList.contains('previous');
+          
+          // Show the previous or done step of the form
+          const currentStep = document.querySelector('.current[data-kt-stepper-element="content"]');
+          let targetStep;
+          if (isPreviousStep) {
+            targetStep = currentStep ? currentStep.previousElementSibling : null;
+          } else {
+            targetStep = document.querySelector('[data-kt-stepper-element="content"][data-kt-stepper-element-index="3"]');
+          }
+          if (currentStep && targetStep) {
+            currentStep.classList.remove('current');
+            targetStep.classList.add('current');
+          }
+      
+          // Update the active step in the stepper
+          const currentNav = document.querySelector('.current[data-kt-stepper-element="nav"]');
+          const targetNav = document.querySelector('[data-kt-stepper-element="nav"][data-kt-stepper-element-index="3"]');
+          if (currentNav && targetNav) {
+            currentNav.classList.remove('current');
+            targetNav.classList.add('current');
+          }
+        });
+      }
+    }
+  }
+ /* Empregister = this.formBuilder.group({
     basic: this.formBuilder.group({
       nom:this.formBuilder.control('',Validators.required),
       prenom:this.formBuilder.control('',Validators.required),
@@ -133,7 +263,7 @@ deleteFiche(id: number) {
       note_banque:this.formBuilder.control('')
     })
   });
- 
+
   get Basicform(){
     return this.Empregister.get("basic") as FormGroup;
   }
@@ -143,8 +273,33 @@ deleteFiche(id: number) {
   get addressform(){
     return this.Empregister.get("address") as FormGroup;
   }
- 
-  HandleSubmit(){
+ */
+  MyForm = this.formBuilder.group({
+    one: this.formBuilder.group({
+      nom:this.formBuilder.control('',Validators.required),
+      prenom:this.formBuilder.control('',Validators.required),
+      cin:this.formBuilder.control('',Validators.required),
+      adresse:this.formBuilder.control('',Validators.required),
+      tel:this.formBuilder.control('',Validators.required),
+      email:this.formBuilder.control('',Validators.required),
+
+    }),
+    two: this.formBuilder.group({
+      montant_creances:this.formBuilder.control(0,Validators.required),
+      montant_echeances:this.formBuilder.control(0,Validators.required),
+      justificatif_creances:this.formBuilder.control(null),
+      objet_creances:this.formBuilder.control('',Validators.required),
+      nombre_echeances:this.formBuilder.control(0,Validators.required),
+      note_banque:this.formBuilder.control('')
+    })
+  });
+  get Oneform(){
+    return this.myForm.get("one") as FormGroup;
+  }
+  get Twoform(){
+    return this.myForm.get("two") as FormGroup;
+  }
+ /* HandleSubmit(){
   const  userData: FicheImpaye = {
       nom: this.Empregister.value.basic?.nom ?? '',
       prenom: this.Empregister.value.basic?.prenom ?? '',
@@ -158,23 +313,59 @@ deleteFiche(id: number) {
       objet_creances: this.Empregister.value.contact?.objet_creances ?? '',
       nombre_echeances: Number(this.Empregister.value.contact?.nombre_echeances) ?? 0,
       note_banque: this.Empregister.value.address?.note_banque ?? '',
-      notes : null
+     
     };
-    console.log("user", userData);
-   
    
       
     const id = +localStorage.getItem('id')!;
-      this.ficheImpayeService.registerFicheImpaye(userData,id).subscribe(
-        response => {
-          console.log(response); // Handle the response here
-        },
-        error => {
-          console.log(error); // Handle the error here
-        }
-      );
+      this.ficheImpayeService.registerFicheImpaye(userData,id).subscribe();
       
+  }*/
+  onSubmit() {
+    if (!this.selectedFile) {
+      console.error('Aucun fichier sélectionné');
+      return;
     }
   
+    if (this.selectedFile.size === 0) {
+      console.error('Le fichier est vide');
+      return;
+    }
   
+    const allowedMimeTypes = [
+      'application/pdf', // pdf
+      'application/msword', // doc
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document' // docx
+    ];
+  
+    if (!allowedMimeTypes.includes(this.selectedFile.type)) {
+      console.error('Le fichier doit être un fichier valide');
+      return;
+    }
+
+    const userData: FicheImpaye = {
+      nom: this.myForm.value.one?.nom ?? '',
+      prenom: this.myForm.value.one?.prenom ?? '',
+      cin: this.myForm.value.one?.cin ?? '',
+      adresse: this.myForm.value.one?.adresse ?? '',
+      tel: this.myForm.value.one?.telephone ?? '',
+      email: this.myForm.value.one?.email ?? '',
+      montant_creances: Number(this.myForm.value.two?.montant_creances) ?? 0,
+      montant_echeances: Number(this.myForm.value.two?.montant_echeances) ?? 0,
+      objet_creances: this.myForm.value.two?.objet_creances ?? '',
+      nombre_echeances: Number(this.myForm.value.two?.nombre_echeances) ?? 0,
+      note_banque: this.myForm.value.two?.note_banque ?? '',
+      justificatif_creances: this.selectedFile
+     };
+  
+    const id = +localStorage.getItem('id')!;
+    console.log(userData);
+    if (this.selectedFile) {
+      const formData = new FormData();
+      formData.append('justificatif_creances', this.selectedFile, this.selectedFile.name);
+    this.ficheImpayeService.registerFicheImpaye(userData, id, formData).subscribe();
+    } else {
+      this.ficheImpayeService.registerFicheImpaye(userData, id, null).subscribe();
+    }
+  }
 }

@@ -9,12 +9,12 @@ export class FicheImpaye {
     tel: string;
     email: string;
     montant_creances: number;
-    justificatif_creances: string | null = null;
+    justificatif_creances: Blob ;
     objet_creances: string | null = null;
     montant_echeances: number;
     nombre_echeances: number;
     note_banque: string;
-    notes:Notes[] | null;
+   
 
     constructor(ficheImpayeData: FicheImpaye) {
       this.nom = ficheImpayeData.nom;
@@ -29,7 +29,7 @@ export class FicheImpaye {
       this.montant_echeances = ficheImpayeData.montant_echeances ;
       this.nombre_echeances = ficheImpayeData.nombre_echeances;
       this.note_banque = ficheImpayeData.note_banque;
-      this.notes = ficheImpayeData.notes;
+     
     }
 
   }

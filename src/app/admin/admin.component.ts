@@ -25,6 +25,11 @@ export class AdminComponent implements OnInit {
   inputValue4: string = '';
   inputValue5: string = '';
   id=0;
+  public pageSize: number = 5; // number of items per page
+  public currentPage: number = 1; // current page number
+  public totalItems: number = 0; // total number of items
+
+
   userData: User = {
     email: '', 
     password: '',
@@ -174,6 +179,7 @@ export class AdminComponent implements OnInit {
 
        this.userService.getUsers().subscribe(result => {
         this.userlist = result;
+        this.totalItems = this.userlist.length;
       });
       
      }

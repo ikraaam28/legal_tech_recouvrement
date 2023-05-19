@@ -642,20 +642,15 @@
         <div class="card-body pt-0">
         
 <!--begin::Table-->
-<table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_products_table">
+<table class="table align-middle table-row-dashed fs-6 gy-5" >
     <!--begin::Table head-->
     <thead>
     <!--begin::Table row-->
     <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
-        <th class="w-10px pe-2">
-            <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
-                <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#kt_ecommerce_products_table .form-check-input" value="1" />
-            </div>
-        </th>
-        <th class="min-w-200px">Utilisateur </th>
         
-        <th class="text-end min-w-100px">Status</th>
-        <th class="text-end min-w-70px">Actions</th>
+        <th class="min-w-200px">Nom Prenom </th>
+        <th class="min-w-70px">Email</th>
+        <th class=" min-w-70px">Adresse</th>
     </tr>
     <!--end::Table row-->
     </thead>
@@ -664,16 +659,22 @@
     <!--begin::Table body-->
     <tbody class="fw-semibold text-gray-600"   >
                 <!--begin::Table row-->
-        <tr  *ngFor="let user of userlist" >
-            <!--begin::Checkbox-->
+        <tr  *ngFor="let user of userlist | paginate: { itemsPerPage: pageSize, currentPage: currentPage, totalItems: totalItems }" >
+           
+            <!--begin::Category--->
             <td>
-                <div class="form-check form-check-sm form-check-custom form-check-solid">
-                    <input class="form-check-input" type="checkbox" value="1" />
+                <div class="d-flex align-items-center">
+                   
+    
+                    <div class="ms-5">
+                        <!--begin::Title-->
+                        <a class="text-gray-800 text-hover-primary fs-5 " data-kt-ecommerce-product-filter="product_name" >{{user.nom}}{{user.prenom}}</a>
+                        <!--end::Title-->
+                    </div>
                 </div>
             </td>
-            <!--end::Checkbox-->
-    
-            <!--begin::Category--->
+        
+           
             <td>
                 <div class="d-flex align-items-center">
                    
@@ -685,16 +686,18 @@
                     </div>
                 </div>
             </td>
-            <!--end::Category--->
+            <td>
+                <div class="d-flex align-items-center">
+                   
     
-    
-            <!--begin::Status--->
-                            <td class="text-end pe-0" data-order="Scheduled">
-                <!--begin::Badges-->                    
-                <div class="badge badge-light-primary">{{user.id}}</div>
-                <!--end::Badges-->
+                    <div class="ms-5">
+                        <!--begin::Title-->
+                        <a class="text-gray-800 text-hover-primary fs-5 " data-kt-ecommerce-product-filter="product_name" >{{user.adresse}}</a>
+                        <!--end::Title-->
+                    </div>
+                </div>
             </td>
-            <!--end::Status--->
+           
     
              <!--begin::Action--->
             <td class="text-end">
@@ -711,6 +714,10 @@
             </td>
             <!--end::Action--->
         
-         </tbody></table>
+         </tbody> </table><pagination-controls 
+         (pageChange)="currentPage = $event"
+         previousLabel="Précédent"
+         nextLabel="Suivant">
+       </pagination-controls>
   </div></div></div></div></div>
 </div>

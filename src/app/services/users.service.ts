@@ -16,28 +16,38 @@ export class UsersService {
   registerUser(userData: User): Observable<any> {
     const url = `${this.baseUrl}/userCreate`;
     const body = JSON.stringify(userData);
-    const headers = new HttpHeaders ({ 
-      'Content-Type': 'application/json' });
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
     return this.http.post(url, body, { headers });
   }
   UpdateUser(id:number, userData: User): Observable<any> {
     const url = `${this.baseUrl}/users/${id}`;
     const body = JSON.stringify(userData);
-    const headers = new HttpHeaders ({ 
-      'Content-Type': 'application/json' });
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
     return this.http.put(url, body, { headers });
   }
   deleteUser(id: number): Observable<any> {
     const url = `${this.baseUrl}/users/delete/${id}`;
-    const headers = new HttpHeaders ({
-       'Content-Type': 'application/json' });
-    
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
     return this.http.delete(url, { headers });
   }
   getUsers(): Observable<any> {
-    const url = `${this.baseUrl}/api/getAllUsers`;
+    const url = `${this.baseUrl}/getAllUsers`;
+   
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      
     });
     return this.http.get(url, { headers });
   }
@@ -52,8 +62,11 @@ export class UsersService {
   }
   GetRoleUser(email: string): Observable<any> {
     const url = `${this.baseUrl}/users/getRole/${email}`;
-    const headers = new HttpHeaders ({
-       'Content-Type': 'application/json' });
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
     
     return this.http.get(url, { headers });
   }
