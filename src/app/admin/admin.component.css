@@ -8,6 +8,16 @@
 .radio{
     margin-left: 50px;
 }
+.success-notification {
+    background-color: green !important;
+    color: white !important;
+  }
+  
+  /* Custom error notification color */
+.error-notification {
+    background-color: red;
+    color: white;
+  }
 .ajout{
     color: white;
 }

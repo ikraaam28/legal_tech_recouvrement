@@ -51,9 +51,9 @@ export class UsersService {
     });
     return this.http.get(url, { headers });
   }
-  getUser(id:number): Observable<any> {
-    const url = `${this.baseUrl}/api/getuser/${id}`;
-    const token = localStorage.getItem('token');
+  getUser(id: number): Observable<any> {
+    const url = `${this.baseUrl}/users/getRole/${id}`; // Update the URL
+    const token = localStorage.getItem('jwt'); // Update the token retrieval
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
@@ -70,6 +70,8 @@ export class UsersService {
     
     return this.http.get(url, { headers });
   }
+  
+  
 }
 
   

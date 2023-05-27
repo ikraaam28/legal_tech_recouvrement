@@ -15,7 +15,7 @@ export class FicheImpayeService {
     const url = `${this.baseUrl}/ficheImpaye/ficheImpayecreated/${id}`;
     
     if (formData) {
-      formData.append('justificatif_creances', userData.justificatif_creances);
+      userData.justificatif_creances !== null ? formData.append('justificatif_creances', userData.justificatif_creances) : null;
       formData.append('userData', JSON.stringify(userData));
       console.log(userData.justificatif_creances);
     }
@@ -28,12 +28,11 @@ export class FicheImpayeService {
     const params = new HttpParams().set("user_id", id.toString());
     return this.http.post(`${this.baseUrl}/upload_excel`, formData, { params });
   }
-  UpdateFicheImpaye(id:number, userData: FicheImpaye): Observable<any> {
+  UpdateFicheImpaye(id:number, ficheData: FicheImpaye): Observable<any> {
     const url = `${this.baseUrl}/ficheImpaye/${id}`;
-    const body = JSON.stringify(userData);
     const headers = new HttpHeaders ({ 
       'Content-Type': 'application/json' });
-    return this.http.put(url, body, { headers });
+    return this.http.put(url, ficheData, { headers });
   }
   deleteFicheImpaye(id: number): Observable<any> {
     const url = `${this.baseUrl}/ficheImpaye/delete/${id}`;

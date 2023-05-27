@@ -5,7 +5,7 @@ export class User {
     nom: string;
     prenom: string;
     adresse: string;
-    numero: number;
+    numero: String;
     mail_charger: string | null = null;
     matricule_fiscale: string | null = null;
     autre_charger: string | null = null;

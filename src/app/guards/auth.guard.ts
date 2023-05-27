@@ -15,16 +15,12 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanDeactivate<u
   private redirect = false;
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    console.log('auth.guard.ts: canActivate called');
     const token = this.authService.getToken();
-    console.log('auth.guard.ts: token:', token);
-    console.log('auth.guard.ts: url' ,state.url);
   
     if (token) {
       if (this.authService.isAdmin()) {
         const url = state.url;
         if (url !== '/admin') {
-          console.log('auth.guard.ts: redirecting to admin');
           this.router.navigate(['/admin']);
           return false; // return false to cancel the current navigation
         }
@@ -32,7 +28,6 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanDeactivate<u
       } else {
         const url = state.url;
         if (url !== '/home' && url !== '/consulter' && url !== '/fiche' ) {
-          console.log('auth.guard.ts: url' ,url);
           this.router.navigate(['/home']);
           return false; // return false to cancel the current navigation
         }
@@ -41,7 +36,6 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanDeactivate<u
     } else {
       const url = state.url;
       if (url !== '/login') {
-        console.log('auth.guard.ts: redirecting to login');
         this.router.navigate(['/login']);
         return false; // return false to cancel the current navigation
       }

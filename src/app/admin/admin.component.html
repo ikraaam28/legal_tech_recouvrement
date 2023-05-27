@@ -439,48 +439,64 @@
                                                   <h6 class="labelpop " >Ajouter Utilisateur</h6>
                                                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
-                                                <div class="modal-body  scroll-y mx-5 mx-xl-15 my-7" >
+                                                <div class="modal-body  scroll-y mx-5 mx-xl-15 my-7">
                                                     <!--begin::Form-->
 																<form id="kt_modal_add_user_form" class="form" #registerForm="ngForm"   (ngSubmit)="onSubmit()" >
                                                   <!--begin::Scroll-->
 																	<div class="d-flex flex-column scroll-y me-n7 pe-7" id="kt_modal_add_user_scroll" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_add_user_header" data-kt-scroll-wrappers="#kt_modal_add_user_scroll" data-kt-scroll-offset="300px">
                                                                         <div class="form-group row mb-7">
+                                                                            
                                                                             <div class="col">
                                                                                 <label class="label required">Nom</label>
-                                                                                <input type="text" name="Nom" [(ngModel)]="userData.nom" class="form-control form-control-solid" placeholder="Nom" required>
-                                                                                <span *ngIf="!userData.nom && submitted" class="text-danger">Le champ Nom est obligatoire.</span>
-                                                                            </div>
+                                                                                <input type="text" name="Nom" [(ngModel)]="userData.nom" class="form-control form-control-solid" placeholder="Nom" required
+                                                                                  (focus)="isTouched = true" (blur)="isTouched = userData.nom ? false : true">
+                                                                                <span *ngIf="isTouched && !userData.nom" class="text-danger">Le champ Nom est obligatoire.</span>
+                                                                              </div>
                                                                             <div class="col">
                                                                                 <label class="label required">Prenom</label>
-                                                                                <input type="text" name="Prenom" [(ngModel)]="userData.prenom" class="form-control form-control-solid" placeholder="Prenom" required>
-                                                                                <span *ngIf="!userData.prenom && submitted" class="text-danger">Le champ Prénom est obligatoire.</span>
+                                                                                <input type="text" name="Prenom" [(ngModel)]="userData.prenom" class="form-control form-control-solid" placeholder="Prenom" required
+                                                                                (focus)="isTouched = true" (blur)="isTouched = userData.prenom ? false : true">
+                                                                                <span *ngIf="isTouched && !userData.prenom" class="text-danger">Le champ Prenom est obligatoire.</span>
                                                                             </div>
                                                                         </div>
                                                                         
                                                                         <div class="form-group row mb-7">
                                                                             <div class="col">
-                                                                                <label class="label required">Numero</label>
-                                                                                <input type="tel" name="Numero" [(ngModel)]="userData.numero" class="form-control form-control-solid" placeholder="Numero" required>
+                                                                                <label class="label required">Numero telephone</label>
+                                                                                <input type="text" name="Numero" [(ngModel)]="userData.numero" class="form-control form-control-solid" placeholder="Numero" required
+                                                                                  pattern="[0-9]*" maxlength="7" minlength="7">
                                                                                 <span *ngIf="!userData.numero && submitted" class="text-danger">Le champ Numéro est obligatoire.</span>
+                                                                                <span *ngIf="registerForm.controls['Numero'].errors?.['pattern']" class="text-danger">Le champ Numéro doit contenir uniquement des chiffres.</span>
+                                                                                <span *ngIf="registerForm.controls['Numero'].errors?.['maxlength']" class="text-danger">Le champ Numéro doit contenir au maximum 7 chiffres.</span>
+                                                                                <span *ngIf="registerForm.controls['Numero'].errors?.['minlength']" class="text-danger">Le champ Numéro doit contenir au minimum 7 chiffres.</span>
+                                                                                
                                                                             </div>
+                                                                              
                                                                             <div class="col">
                                                                                 <label class="label required">Adresse</label>
-                                                                                <input type="text" name="Adresse" [(ngModel)]="userData.adresse" class="form-control form-control-solid" placeholder="Adresse" required>
-                                                                                <span *ngIf="!userData.adresse && submitted" class="text-danger">Le champ Adresse est obligatoire.</span>
+                                                                                <input type="text" name="Adresse" [(ngModel)]="userData.adresse" class="form-control form-control-solid" placeholder="Adresse" required
+                                                                                (focus)="isTouched = true" (blur)="isTouched = userData.adresse ? false : true">
+                                                                                <span *ngIf="isTouched && !userData.adresse" class="text-danger">Le champ Adresse est obligatoire.</span>
                                                                             </div>
                                                                         </div>
                                                                         
                                                                         <div class="form-group row mb-7">
+                                                                          
                                                                             <div class="col">
                                                                                 <label class="label required">Email</label>
-                                                                                <input type="email" name="Email" [(ngModel)]="userData.email" class="form-control form-control-solid" placeholder="Email" required>
-                                                                                <span *ngIf="!userData.email && submitted" class="text-danger">Le champ Email est obligatoire.</span>
-                                                                            </div>
-                                                                            <div class="col">
-                                                                                <label class="label required">Password</label>
-                                                                                <input type="password" name="password" [(ngModel)]="userData.password" class="form-control form-control-solid" placeholder="Password" required>
-                                                                                <span *ngIf="!userData.password && submitted" class="text-danger">Le champ Mot de passe est obligatoire.</span>
-                                                                            </div>
+                                                                                <input type="email" name="Email" [(ngModel)]="userData.email" class="form-control form-control-solid" placeholder="Email" required  pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}"
+                                                                                  (focus)="isTouched = true" (blur)="isTouched = userData.email ? false : true">
+                                                                                <span *ngIf="isTouched && !userData.email" class="text-danger">Le champ Email est obligatoire.</span>
+                                                                                <span *ngIf="registerForm.controls['Email'].errors?.['pattern']" class="text-danger">Veuillez entrer une adresse email valide.</span>
+                                                                              </div>
+                                                                              
+                                                                                <div class="col">
+                                                                                    <label class="label required">Password</label>
+                                                                                    <input type="password" name="password" [(ngModel)]="userData.password" class="form-control form-control-solid" placeholder="Password" required minlength="6">
+                                                                                    <span *ngIf="!userData.password && submitted" class="text-danger">Le champ Mot de passe est obligatoire.</span>
+                                                                                    <span *ngIf="registerForm.controls['password'].errors?.['minlength']" class="text-danger">Le champ Mot de passe doit contenir au moins 6 caractères.</span>
+                                                                                  </div>
+                                                                                  
                                                                         </div>
 																		<!--begin::Input group-->
 																		<div class="mb-7">
