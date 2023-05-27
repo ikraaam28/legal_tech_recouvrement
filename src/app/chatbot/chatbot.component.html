@@ -1,0 +1,21 @@
+<div class="chatbot">
+    <button  [class.active]="showChat" (click)="toggleChat()">
+        <div *ngIf="showChat == false ">
+        <img src="../../assets/media/chat.png" alt="Toggle Chat" class="chatimg"  />
+    </div>
+    <div *ngIf="showChat == true ">
+        <img src="../../assets/media/close.png" alt="Toggle Chat" class="closeimg"  />
+    </div>
+      </button>
+    <div *ngIf="showChat" class="chat-window">
+      <div class="message-container">
+        <div *ngFor="let message of messages" class="message">{{ message }}</div>
+      </div>
+      <div class="message-input-container">
+        <div class="message-input">
+          <input type="text" [(ngModel)]="inputMessage" (keyup.enter)="sendMessage(inputMessage)" placeholder="Saisir un message..." />
+          <button (click)="sendMessage(inputMessage)">Envoyer        </button>
+        </div>
+      </div>
+    </div>
+  </div>

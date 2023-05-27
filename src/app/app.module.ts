@@ -22,7 +22,7 @@ import { LandingComponent } from './landing/landing.component';
 import { AdminComponent } from './admin/admin.component';
 import { CallcenterComponent } from './callcenter/callcenter.component';
 import { HttpClientModule } from '@angular/common/http';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarConfig, MatSnackBarModule } from '@angular/material/snack-bar';
 import { HTTP_INTERCEPTORS} from '@angular/common/http';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { NgxMatFileInputModule } from '@angular-material-components/file-input';
@@ -37,6 +37,7 @@ import { UserCardComponent } from './fiche/user-card/user-card.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha';
+import { ChatbotComponent } from './chatbot/chatbot.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,7 +58,8 @@ import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha';
     NavbarComponent,
     NotesComponent,
     UserCardComponent,
-    AccountComponent
+    AccountComponent,
+    ChatbotComponent
     
   ],
   imports: [
@@ -73,7 +75,6 @@ import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha';
     MatIconModule,
     NgxMatFileInputModule,
     HttpClientModule, 
-    BrowserAnimationsModule, 
     BrowserModule,
     Ng2SearchPipeModule,
     MatSnackBarModule,
@@ -81,7 +82,7 @@ import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha';
     ReactiveFormsModule,
     RecaptchaModule,
     RecaptchaFormsModule
-    
+   
     
      
   ],

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FicheImpaye } from 'src/app/Models/FicheImpaye';
 import { Fichiers } from 'src/app/Models/Fichiers';
 import { Notes } from 'src/app/Models/Notes';
@@ -16,79 +16,109 @@ import { UsersService } from 'src/app/services/users.service';
   styleUrls: ['./notes.component.css']
 })
 export class NotesComponent {
-  @Input() hideSpecificFields: boolean = false;
-
+  @Input() hideSpecificFields = false;
+  @Input() noteList: any ;
   myForm: FormGroup;
-  ficheimpaye!: FicheImpaye;
-   note!: number;
-  user! : User;
-  constructor(private fb: FormBuilder, private userservice : UsersService,private ficheimpayeservice: FicheImpayeService, private fichierservice: FichiersService,private router: ActivatedRoute, private noteservice: NotesService) {
-    this.myForm = this.fb.group({
+  selectedFiles: { [key: string]: File | null } = {};
+  note!: number;
+  role: string = '';
+  constructor(
+    private formBuilder: FormBuilder,
+    private activatedRoute: ActivatedRoute,
+    private fichierservice: FichiersService,
+    private noteservice: NotesService,
+    private router: Router,
+    private userService: UsersService // Inject the UsersService
+  ) {
+    this.myForm = this.formBuilder.group({
       commentaire: [''],
-      fichier:null ,
-      jugement:null,
-      pv_execution:null ,
-      pv_creance:null ,
-      enregistrement: null
+      fichier: [''],
+      jugement: [''],
+      pv_execution: [''],
+      pv_creance: [''],
+      enregistrement: ['']
     });
-
   }
-  
   ngOnInit() {
-/*
-    let idfiche = this.router.snapshot.paramMap.get('id');
-console.error("idfiche = ", idfiche)
-    this.ficheimpayeservice.GetFicheImpaye(Number(idfiche)).subscribe((res) => {
-      this.ficheimpaye = res;
-      this.note.ficheImpaye = res;
-     console.log('************************* 1')
-      console.log(" res of fiche impaye = ", res);
-      console.error("ficheimpaye  ",this.ficheimpaye);
-    console.error("user = ",this.user);
-    console.error("note  ",this.note);
-    });
-    let user_id = localStorage.getItem('id');
-  
-    this.userservice.getUser(Number(user_id)).subscribe((res) => {
-      this.user = res;
-      this.note.user= res;
-      console.log('********************* 2')
-      console.log("res of user ", res);
-      console.error("ficheimpaye  ",this.ficheimpaye);
-    console.error("user = ",this.user);
-    console.error("note  ",this.note);
-    });
+   
+    // Get the user ID from local storage
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      this.userService.GetRoleUser(userId).subscribe((data: any) => {
+        this.role = data.role;
+      });
+    } else {
+      console.error('User ID not found in local storage');
+    }
     
-    console.error("ficheimpaye  ",this.ficheimpaye);
-    console.error("user = ",this.user);
-    console.error("note  ",JSON.stringify(this.note));
-    */
- 
+    
   }
+  
+  
 
-  Submit(){
-    let user_id = localStorage.getItem('id');
-    let idfiche = this.router.snapshot.paramMap.get('id');
-    const userData: Fichiers = {
-      commentaire: this.myForm.value.commentaire ?? '',
-      enregistrement: this.myForm.value.enregistrement.files[0]?? null,
-      fichier: this.myForm.value.fichiers.files[0] ?? null,
-      jugement: this.myForm.value.jugement.files[0] ?? null,
-      pv_execution: this.myForm.value.pv_execution.files[0] ?? null,
-      pv_creance: this.myForm.value.pv_creance.files[0] ?? null,
-      created_at: new Date(),
-      updated_at: new Date(),
-    };
-    this.noteservice.registernotes(Number(user_id),Number(idfiche) ).subscribe((res) => {
-      this.note=res.id;
-      this.fichierservice.registerfichiers(userData, this.note).subscribe(
-        response => {
-          alert('register fichiers ');
-        },
-        error => {
-          alert(error);
+  onFileSelected(event: any, field: string): void {
+    const file: File = event.target.files[0];
+    this.selectedFiles[field] = file || null;
+  }
+  Submit(): void {
+    const formData = new FormData();
+    const allowedMimeTypes = [
+      'application/pdf', // pdf
+      'application/msword', // doc
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document' // docx
+    ];
+
+    for (const field in this.selectedFiles) {
+      const file: File | null = this.selectedFiles[field];
+      if (file) {
+        if (file.size === 0) {
+          console.error(`The file ${field} is empty`);
+          return;
         }
-      );
-    });
-      }  
+
+        if (!allowedMimeTypes.includes(file.type)) {
+          console.error(`The file ${field} must be a valid file`);
+          return;
+        }
+
+        formData.append(field, file, file.name); // Append the file with its name
+        console.log(file);
+      } else {
+        console.error(`No file selected for the field ${field}`);
+        return;
+      }
+    }
+
+    const user_id = localStorage.getItem('userId');
+    const idfiche = this.activatedRoute.snapshot.paramMap.get('id');
+
+    this.noteservice.registernotes(Number(user_id), Number(idfiche)).subscribe(
+      (res) => {
+        this.note = res.id;
+        const userData: Fichiers = {
+          commentaire: this.myForm.value.commentaire ?? '',
+          enregistrement: this.selectedFiles['enregistrement'] ? this.selectedFiles['enregistrement'].name : null,
+          fichier: this.selectedFiles['fichier'] ? this.selectedFiles['fichier'].name : null,
+          jugement: this.selectedFiles['jugement'] ? this.selectedFiles['jugement'].name : null,
+          pv_execution: this.selectedFiles['pv_execution'] ? this.selectedFiles['pv_execution'].name : null,
+          pv_creance: this.selectedFiles['pv_creance'] ? this.selectedFiles['pv_creance'].name : null,
+          created_at: new Date(),
+          updated_at: new Date()
+        };
+
+        console.log('userData:', userData);
+        this.fichierservice.registerfichiers(userData, this.note).subscribe(
+          () => {
+            alert('Register fichiers: ' + JSON.stringify(userData));
+          },
+          (error) => {
+            alert(error);
+          }
+        );
+      },
+      (error) => {
+        alert(error);
+      }
+    );
+  }
 }

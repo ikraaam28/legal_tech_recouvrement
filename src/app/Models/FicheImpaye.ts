@@ -9,7 +9,7 @@ export class FicheImpaye {
     tel: string;
     email: string;
     montant_creances: number;
-    justificatif_creances: Blob ;
+    justificatif_creances: string | null;
     objet_creances: string | null = null;
     montant_echeances: number;
     nombre_echeances: number;

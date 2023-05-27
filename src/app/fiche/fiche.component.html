@@ -42,7 +42,7 @@
         <!--end:::Tab item-->
         <!--begin:::Tab item-->
         <li class="nav-item" [ngClass]="{'active': activeTab === 'huissier'}">
-          <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#view_huissier_nottaire_tab" (click)="activeTab = 'huissier'">
+          <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#view_huissier_nottaire_tab" (click)="activeTab = 'huissier'; logActiveTab()">
             Huissier Nottaire
           </a>
         </li>
@@ -52,22 +52,27 @@
       <div class="tab-content">
         <div class="tab-pane fade" id="view_banque_tab" role="tabpanel">
           <!-- Banque content here -->
-          <app-notes   *ngIf="activeTab === 'banque'"></app-notes>
+          <app-notes [hideSpecificFields]="roleuser.includes('Banque') ? true : false"  [noteList]="noteList" *ngIf="activeTab === 'banque'">
+          </app-notes>
         </div>
         <div class="tab-pane fade" id="call" role="tabpanel">
           <!-- Call Center content here -->
-          <app-notes  *ngIf="activeTab === 'call'"></app-notes>
-          <app-calendreier *ngIf="activeTab === 'call'"></app-calendreier>
+          <app-notes [hideSpecificFields]="roleuser.includes('Centre D\'appel') ? true : false" [noteList]="noteList" *ngIf="activeTab === 'call'"></app-notes>
+          <app-calendreier *ngIf="activeTab === 'call'" ></app-calendreier>
         </div>
         <div class="tab-pane fade" id="view_agent_sur_terrain_tab" role="tabpanel">
           <!-- Agent sur Terrain content here -->
-          <app-notes   *ngIf="activeTab === 'agent'"></app-notes>
+          <app-notes [hideSpecificFields]="roleuser.includes('Agent Sur Terrain') ? true : false" [noteList]="noteList" *ngIf="activeTab === 'agent'"></app-notes>
         </div>
         <div class="tab-pane fade" id="view_avocat_tab" role="tabpanel">
           <!-- Avocat content here -->
-          <app-notes   *ngIf="activeTab === 'avocat'" [hideSpecificFields]="isAvocatActive()"></app-notes>
+          <app-notes [hideSpecificFields]="roleuser.includes('Avocat') ? true : false" [noteList]="noteList" *ngIf="activeTab === 'avocat'" ></app-notes>
         </div>
         <div class="tab-pane fade" id="view_huissier_nottaire_tab" role="tabpanel">
-          <!-- Huiss-->     
-          <app-notes   *ngIf="activeTab === 'huissier'"></app-notes> 
-    </div> </div></div></div></div></div></div>
+          <!-- Huissier Nottaire content here -->
+          <app-notes [hideSpecificFields]="roleuser.includes('Hussier Nottaire') ? true : false" [noteList]="noteList" *ngIf="activeTab === 'huissier'" >
+    
+          </app-notes>
+        </div>
+        
+         </div></div></div></div></div></div>

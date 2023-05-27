@@ -11,12 +11,10 @@ export class FichiersService {
 
   constructor(private http: HttpClient) {}
 
-  registerfichiers(userData: Fichiers, id:number): Observable<any> {
-    const url = `${this.baseUrl}/fichiers/fichiercreated/${id}`;
-    const body = JSON.stringify(userData);
-    const headers = new HttpHeaders ({ 
-      'Content-Type': 'application/json' });
-    return this.http.post(url, body, { headers });
+  registerfichiers(userData: Fichiers, noteId: number): Observable<any> {
+    const url = `${this.baseUrl}/fichiers/fichiercreated/${noteId}`;
+   
+    return this.http.post(url, userData);
   }
   Updatefichiers(id:number, userData: Fichiers): Observable<any> {
     const url = `${this.baseUrl}/fichiers/${id}`;

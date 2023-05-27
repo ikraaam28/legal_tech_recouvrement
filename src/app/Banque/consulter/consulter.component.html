@@ -4,6 +4,64 @@
 </div><!--
 -->
 <body><div  style="margin-top: 90px;" >
+  <div class="row">
+    <!--begin::Col-->
+    <div class="col-xxl-4 ms-20">
+      <!--begin::Engage widget 1-->
+      <div class="card h-md-100" dir="ltr">
+        <!--begin::Body-->
+        <div class="card-body d-flex flex-column flex-center">
+          <!--begin::Heading-->
+          <div class="mb-2">
+            <!--begin::Title-->
+            <h1 class="fw-semibold text-gray-800 text-center lh-lg">Try out our
+            <br />new
+            <span class="fw-bolder">Invoice Manager</span></h1>
+            <!--end::Title-->
+            <!--begin::Illustration-->
+            <div class="py-10 text-center">
+              <img src="assets/media/svg/illustrations/easy/2.svg" class="theme-light-show w-200px" alt="" />
+              <img src="assets/media/svg/illustrations/easy/2-dark.svg" class="theme-dark-show w-200px" alt="" />
+            </div>
+            <!--end::Illustration-->
+          </div>
+          <!--end::Heading-->
+          <!--begin::Links-->
+          <div class="text-center mb-1">
+            <!--begin::Link-->
+            <a class="btn btn-sm btn-primary me-2" data-bs-target="#kt_modal_new_address" data-bs-toggle="modal">Try Now</a>
+            <!--end::Link-->
+            <!--begin::Link-->
+            <a class="btn btn-sm btn-light" href="../../demo1/dist/apps/user-management/users/view.html">Learn More</a>
+            <!--end::Link-->
+          </div>
+          <!--end::Links-->
+        </div>
+        <!--end::Body-->
+      </div>
+      <!--end::Engage widget 1-->
+    </div>
+    <!--end::Col-->
+    <div class="col-xl-4">
+      <!--begin: Statistics Widget 6-->
+      <div class="card bg-light-primary card-xl-stretch mb-5 mb-xl-8">
+        <!--begin::Body-->
+        <div class="card-body my-3">
+          <a href="#" class="card-title fw-bold text-primary fs-5 mb-3 d-block">Marketing Analysis</a>
+          <div class="py-1">
+            <span class="text-dark fs-1 fw-bold me-2">76%</span>
+            <span class="fw-semibold text-muted fs-7">400k Impressions</span>
+          </div>
+          <div class="progress h-7px bg-primary bg-opacity-50 mt-7">
+            <div class="progress-bar bg-primary" role="progressbar" style="width: 76%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+        <!--end:: Body-->
+      </div>
+      <!--end: Statistics Widget 6-->
+    </div>
+    
+  </div>
    <!--begin::Main-->
    <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
       <!--begin::Content wrapper-->
@@ -62,11 +120,11 @@ Listes Des Impayées
 <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
   
 <!--begin::Export-->
-<input type="file" (change)="onFileSelected($event)">
-<button type="button" class="btn btn-primary"  (click)="onUpload()">Importer</button>
-<a href="/src/assets/FicheClient/legaltech.xlsx" download>
-  <button class="btn btn-primary" > Modele du Fiche</button>
-</a>
+
+<input type="file" class="form-control" (change)="onFileSelected($event)" style="width: 300px;">
+<button type="button" class="btn btn-primary" (click)="onUpload()">Importer</button>
+<a href="/src/assets/FicheClient/legaltech.xlsx" download><button class="btn btn-primary">Modele du Fiche</button></a>
+
                                 
                                 <!-- Modal -->
                                 <a   class="btn btn-primary" style="color: white;" data-bs-toggle="modal" data-bs-target="#kt_modal_offer_a_deal" (click)="onHireMeClick()">Ajouter Client</a>
@@ -122,7 +180,7 @@ Listes Des Impayées
         <div class="col-lg-6 mb-4">
           <div class="fv-row mb-0">
             <label for="nom" class="form-label">Nom</label>
-            <input type="text" class="form-control form-control-lg" id="nom" id="nom" formControlName="nom"  required>
+            <input type="text" class="form-control form-control-lg" id="nom" id="nom" formControlName="nom" [(ngModel)]="ficheData.nom"  required>
           </div>
         </div>
         <!--end::Nom-->
@@ -130,7 +188,7 @@ Listes Des Impayées
         <div class="col-lg-6 mb-4">
           <div class="fv-row mb-0">
             <label for="prenom" class="form-label">Prénom</label>
-            <input type="text" class="form-control form-control-lg" id="prenom" name="prenom" formControlName="prenom" required>
+            <input type="text" class="form-control form-control-lg" id="prenom" name="prenom" [(ngModel)]="ficheData.prenom"  formControlName="prenom" required>
           </div>
         </div>
         <!--end::Prénom-->
@@ -140,7 +198,7 @@ Listes Des Impayées
         <div class="col-lg-6 mb-4">
           <div class="fv-row mb-0">
             <label for="cin" class="form-label">CIN</label>
-            <input type="text" class="form-control form-control-lg" id="cin" name="cin" formControlName="cin" required>
+            <input type="text" class="form-control form-control-lg" id="cin" name="cin" [(ngModel)]="ficheData.cin" formControlName="cin" required>
           </div>
         </div>
         <!--end::CIN-->
@@ -148,7 +206,7 @@ Listes Des Impayées
         <div class="col-lg-6 mb-4">
           <div class="fv-row mb-0">
             <label for="adresse" class="form-label">Adresse</label>
-            <input type="text" class="form-control form-control-lg" id="adresse" name="adresse" formControlName="adresse" required>
+            <input type="text" class="form-control form-control-lg" id="adresse" name="adresse" [(ngModel)]="ficheData.adresse"  formControlName="adresse" required>
           </div>
         </div>
         <!--end::Adresse-->
@@ -158,7 +216,7 @@ Listes Des Impayées
         <div class="col-lg-6 mb-4">
           <div class="fv-row mb-0">
             <label for="telephone" class="form-label">Numéro de téléphone</label>
-            <input type="text" class="form-control form-control-lg" id="telephone" name="telephone" formControlName="telephone" required>
+            <input type="text" class="form-control form-control-lg" id="tel" name="telephone" [(ngModel)]="ficheData.tel"  formControlName="tel" required>
           </div>
         </div>
         <!--end::Numéro de téléphone-->
@@ -166,7 +224,7 @@ Listes Des Impayées
         <div class="col-lg-6 mb-4">
           <div class="fv-row mb-0">
             <label for="email" class="form-label">Adresse e-mail</label>
-            <input type="email" class="form-control form-control-lg" id="email" name="email" formControlName="email" required>
+            <input type="email" class="form-control form-control-lg" id="email" name="email" [(ngModel)]="ficheData.email"  formControlName="email" required>
           </div>
         </div>
         <!--end::Adresse e-mail-->
@@ -197,7 +255,7 @@ Listes Des Impayées
   <div class="col-lg-6 mb-4">
     <div class="fv-row mb-0">
       <label for="montant_creances" class="form-label">Montant des créances</label>
-      <input type="text" class="form-control form-control-lg" id="montant_creances" name="montant_creances" formControlName="montant_creances" required>
+      <input type="text" class="form-control form-control-lg" id="montant_creances" [(ngModel)]="ficheData.montant_creances" name="montant_creances" formControlName="montant_creances" required>
     </div>
   </div>
   <!--end::Montant des créances-->
@@ -205,7 +263,7 @@ Listes Des Impayées
   <div class="col-lg-6 mb-4">
     <div class="fv-row mb-0">
       <label for="justificatif_creances" class="form-label">Justificatif des créances</label>
-      <input type="file" (change)="onFileSelected($event)" accept=".pdf,.doc,.docx" class="form-control form-control-lg" id="justificatif_creances" name="justificatif_creances" formControlName="justificatif_creances" required>
+      <input type="file" (change)="onFileSelected($event)" accept=".pdf,.doc,.docx"  class="form-control form-control-lg" id="justificatif_creances" name="justificatif_creances" formControlName="justificatif_creances" required>
     </div>
   </div>
   <!--end::Justificatif des créances-->
@@ -215,7 +273,7 @@ Listes Des Impayées
   <div class="col-lg-6 mb-4">
     <div class="fv-row mb-0">
       <label for="objet_creances" class="form-label">Objet des créances</label>
-      <input type="text" class="form-control form-control-lg" id="objet_creances" name="objet_creances" formControlName="objet_creances" required>
+      <input type="text" class="form-control form-control-lg" id="objet_creances" name="objet_creances" [(ngModel)]="ficheData.objet_creances"  formControlName="objet_creances" required>
     </div>
   </div>
   <!--end::Objet des créances-->
@@ -223,7 +281,7 @@ Listes Des Impayées
   <div class="col-lg-6 mb-4">
     <div class="fv-row mb-0">
       <label for="montant_echeances" class="form-label">Montant des échéances</label>
-      <input type="text" class="form-control form-control-lg" id="montant_echeances" name="montant_echeances" formControlName="montant_echeances" required>
+      <input type="text" class="form-control form-control-lg" id="montant_echeances" name="montant_echeances" [(ngModel)]="ficheData.montant_echeances"  formControlName="montant_echeances" required>
     </div>
   </div>
   <!--end::Montant des échéances-->
@@ -233,7 +291,7 @@ Listes Des Impayées
   <div class="col-lg-6 mb-4">
     <div class="fv-row mb-0">
       <label for="nombre_echeances" class="form-label">Nombre d'échéances</label>
-      <input type="text" class="form-control form-control-lg" id="nombre_echeances" name="nombre_echeances" formControlName="nombre_echeances" required>
+      <input type="text" class="form-control form-control-lg" id="nombre_echeances" name="nombre_echeances" [(ngModel)]="ficheData.nombre_echeances"  formControlName="nombre_echeances" required>
     </div>
   </div>
   <!--end::Nombre d'échéances-->
@@ -241,7 +299,7 @@ Listes Des Impayées
   <div class="col-lg-6 mb-4">
     <div class="fv-row mb-0">
       <label for="note_banque" class="form-label">Note Banque</label>
-      <input type="text" class="form-control form-control-lg" id="note_banque" name="note_banque" formControlName="note_banque" required>
+      <input type="text" class="form-control form-control-lg" id="note_banque" name="note_banque" [(ngModel)]="ficheData.note_banque"  formControlName="note_banque" required>
     </div>
   </div>
   <!--end::Note Banque-->
@@ -272,114 +330,7 @@ Listes Des Impayées
 						<!--end::Stepper-->
 					</div>
 					<!--begin::Modal body--></div></div></div>
-                                <!-- Modal 2 with validation-->
-                                <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModal2Label" aria-hidden="true" >
-                                  <div class="modal-dialog modal-xl">
-                                    <div class="modal-content">
-                                      <div class="modal-header">
-                                        <h6 class="labelpop text-primary" >Ajouter Impayée</h6>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                      </div>
-                                      <div class="modal-body">
-                                        
-                                        <form  style="background-color: white;" >
-                                          <mat-stepper [linear]="isLinear" #stepper >
-                                            <mat-step >
-                                              <ng-template matStepLabel   >Informations de base</ng-template>
-                                              <div formGroupName="basic">
-                                                <mat-form-field appearance="fill" class="champleft">
-                                                  <mat-label style="color: black;">Nom</mat-label>
-                                                  <input matInput placeholder="Nom" formControlName="nom">
-                                                </mat-form-field>
-                                        
-                                                <mat-form-field appearance="fill" class="champright">
-                                                  <mat-label style="color: black;">Prénom</mat-label>
-                                                  <input matInput placeholder="Prénom" formControlName="prenom">
-                                                </mat-form-field>
-                                                <br>
-                                                <mat-form-field appearance="fill" class="champleft">
-                                                  <mat-label style="color: black;">CIN</mat-label>
-                                                  <input matInput placeholder="CIN" formControlName="cin">
-                                                </mat-form-field>
-                                        
-                                                <mat-form-field appearance="fill" class="champright">
-                                                  <mat-label style="color: black;">Adresse</mat-label>
-                                                  <input matInput placeholder="Adresse" formControlName="adresse">
-                                                </mat-form-field>
-                                                <br>
-                                        
-                                                <mat-form-field appearance="fill" class="champleft">
-                                                  <mat-label style="color: black;">Numéro de téléphone</mat-label>
-                                                  <input matInput placeholder="Numéro de téléphone" formControlName="tel">
-                                                </mat-form-field>
-                                        
-                                                <mat-form-field appearance="fill" class="champright">
-                                                  <mat-label style="color: black;">Adresse e-mail</mat-label>
-                                                  <input matInput placeholder="Adresse e-mail" formControlName="email">
-                                                </mat-form-field>
-                                        
-                                                <div>
-                                                  <button class="btn btn-primary" matStepperNext>Ensuite</button>
-                                                </div>
-                                              </div>
-                                            </mat-step>
-                                        
-                                            <mat-step  label="Plus d'informations">
-                                              <div formGroupName="contact">
-                                                <mat-form-field appearance="fill" class="champleft">
-                                                  <mat-label>Montant des créances</mat-label>
-                                                  <input matInput formControlName="montant_creances" placeholder="Montant des créances" >
-                                                </mat-form-field>
-                                        
-                                                <mat-form-field appearance="fill" class="champright">
-                                                  <mat-label>Justificatif des créances</mat-label>
-                                                  <input matInput formControlName="justificatif_creances" placeholder="Justificatif des créances" >
-                                                </mat-form-field>
-                                                <br>
-                                        
-                                                <mat-form-field appearance="fill" class="champleft">
-                                                  <mat-label>Objet des créances</mat-label>
-                                                  <input matInput formControlName="objet_creances" placeholder="Objet des créances" >
-                                                </mat-form-field>
-                                        
-                                                <mat-form-field appearance="fill" class="champright">
-                                                  <mat-label>Montant des échéances</mat-label>
-                                                  <input matInput formControlName="montant_echeances" placeholder="Montant des échéances" >
-                                                </mat-form-field>
-                                                <br>
-                                        
-                                                <mat-form-field appearance="fill" class="champcenter">
-                                                  <mat-label>Nombre d'échéances</mat-label>
-                                                  <input matInput formControlName="nombre_echeances" placeholder="Nombre d'échéances" >
-                                                </mat-form-field>
-                                                      <div>
-                                                        <button  class="btn btn-primary" matStepperPrevious>Retourner</button> | 
-                                                        <button  class="btn btn-primary" matStepperNext>Ensuite</button>
-                                                      </div>
-                                                  </div>
-                                                  </mat-step>
-                                                  <mat-step  label="Derniere Etape">
-                                                      <div formGroupName="address">
-                                                        <mat-form-field appearance="fill" class="champcenter">
-                                                          <mat-label>Note Banque</mat-label>
-                                                          <input matInput formControlName="note_banque" placeholder="street">
-                                                        </mat-form-field>
-                                                        
-                                                        <div>
-                                                          <button  class="btn btn-primary" matStepperPrevious>Retourner</button> | 
-                                                          <button  class="btn btn-primary" >Confirmer</button>
-                                                        </div>
-                                                    </div>
-                                                    </mat-step>
-                                              
-                                                </mat-stepper>
-                                              </form>
-                                      
-                                      </div>
-                                      
-                                    </div>
-                                  </div>
-                                </div>
+                                
 
 </div>
 <!--end::Card toolbar-->
@@ -465,6 +416,7 @@ Listes Des Impayées
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" [routerLink]="['/fiche', ficheimpaye.id]" >Consulter</a>
+                <a class="dropdown-item"  (click)="modifierFiche(ficheimpaye.id, ficheimpaye)" data-bs-toggle="modal" data-bs-target="#kt_modal_offer_a_deal" >Modifier</a>
                 <a class="dropdown-item" (click)="deleteFiche(ficheimpaye.id)">Supprimer</a>
             </div>
         </div>

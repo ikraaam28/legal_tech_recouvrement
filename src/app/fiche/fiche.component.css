@@ -167,3 +167,12 @@ body {
   box-sizing: border-box;
   /* Other styles... */
 }
+.note-container {
+  position: relative;
+}
+
+.note-container button {
+  position: absolute;
+  top: 0;
+  left: 0;
+}

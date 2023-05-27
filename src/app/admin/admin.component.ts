@@ -6,6 +6,7 @@ import { User } from '../Models/User';
 import { HttpClient } from '@angular/common/http';
 import { MasterService } from '../services/master.service';
 import { UsersService } from '../services/users.service';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-admin',
@@ -29,14 +30,14 @@ export class AdminComponent implements OnInit {
   public currentPage: number = 1; // current page number
   public totalItems: number = 0; // total number of items
 
-
+  isTouched = false;
   userData: User = {
     email: '', 
     password: '',
     nom: '',
     prenom: '',
     adresse: '',
-    numero: 0 ,
+    numero: '' ,
     mail_charger: '',
     matricule_fiscale: '',
     autre_charger: '',
@@ -44,6 +45,8 @@ export class AdminComponent implements OnInit {
     roles: []
    
   };
+ 
+
   resetUserData() {
     this.userData = {
         email: '', 
@@ -51,7 +54,7 @@ export class AdminComponent implements OnInit {
         nom: '',
         prenom: '',
         adresse: '',
-        numero: 0 ,
+        numero: '',
         mail_charger: '',
         matricule_fiscale: '',
         autre_charger: '',
@@ -77,6 +80,9 @@ export class AdminComponent implements OnInit {
       case 'option4':
         this.userData.roles = ['Avocat'];
         break;
+        case 'option5':
+          this.userData.roles = ['Hussier Nottaire'];
+          break;
       default:
         this.userData.roles = ['admin'];
         break;
@@ -106,10 +112,33 @@ export class AdminComponent implements OnInit {
   registerForm!: FormGroup;
   submitted = false;
 
-  constructor(private formBuilder: FormBuilder, private service: MasterService, private userService: UsersService) {
+  constructor(private snackBar: MatSnackBar, private formBuilder: FormBuilder, private service: MasterService, private userService: UsersService) {
   
   }
+  
 
+  showSuccess(message: string): void {
+    const config: MatSnackBarConfig = {
+      duration: 3000,
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
+      panelClass: ['success-notification']
+    };
+    
+    this.snackBar.open(message, 'Close', config);
+  }
+  
+  
+  showError(message: string): void {
+    const config: MatSnackBarConfig = {
+      panelClass: 'error-notification',
+      duration: 5000,
+      horizontalPosition: 'center',
+      verticalPosition: 'top'
+    };
+  
+    this.snackBar.open(message, 'Close', config);
+  }
 
   deleteUser(id: number) {
     if (confirm('Are you sure you want to delete this user?')) {
@@ -143,26 +172,28 @@ export class AdminComponent implements OnInit {
     this.userService.registerUser(this.userData).subscribe(
       (response: any) => {
         console.log(response);
-        alert("Utilisateur enregistrer avec succes!");
+        this.showSuccess('Utilisateur enregistrer');
         this.resetUserData();
       },
-      (error: any) => console.log("error")
+      (error: any) => 
+      this.showError('Error notification message')
     );
 
   }else{
     this.userService.UpdateUser(this.id,this.userData).subscribe(
       (response: any) => {
         console.log(response);
-        alert("Utilisateur updated avec succes!");
+        this.showSuccess('Utilisateur modifier ');
         this.resetUserData();
       },
-      (error: any) => console.log("error")
+      (error: any) => this.showError('Error notification message')
     );
   }
   }
    
      ngOnInit() {
       
+      this.showSuccess('Utilisateur enregistrer ');
        //Add User form validations
        this.registerForm = this.formBuilder.group({
        email: ['', [Validators.required, Validators.email]],
@@ -170,7 +201,7 @@ export class AdminComponent implements OnInit {
        nom: ['', [Validators.required]],
        prenom: ['', [Validators.required]],
        adresse: ['', [Validators.required]],
-       numero: [0, [Validators.required]],
+       numero: ['', [Validators.required, Validators.pattern('[0-9]*')]],
        id_unique: [null] ,
        mail_charger:[ null],
        autre_charger:[ null],
