@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { MasterService } from '../services/master.service';
 import { UsersService } from '../services/users.service';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-admin',
@@ -112,34 +113,10 @@ export class AdminComponent implements OnInit {
   registerForm!: FormGroup;
   submitted = false;
 
-  constructor(private snackBar: MatSnackBar, private formBuilder: FormBuilder, private service: MasterService, private userService: UsersService) {
+  constructor(private snackBar: MatSnackBar, private formBuilder: FormBuilder, private service: MasterService, private userService: UsersService, private toastr:ToastrService) {
   
   }
   
-
-  showSuccess(message: string): void {
-    const config: MatSnackBarConfig = {
-      duration: 3000,
-      horizontalPosition: 'right',
-      verticalPosition: 'top',
-      panelClass: ['success-notification']
-    };
-    
-    this.snackBar.open(message, 'Close', config);
-  }
-  
-  
-  showError(message: string): void {
-    const config: MatSnackBarConfig = {
-      panelClass: 'error-notification',
-      duration: 5000,
-      horizontalPosition: 'center',
-      verticalPosition: 'top'
-    };
-  
-    this.snackBar.open(message, 'Close', config);
-  }
-
   deleteUser(id: number) {
     if (confirm('Are you sure you want to delete this user?')) {
       this.userService.deleteUser(id).subscribe(
@@ -166,34 +143,33 @@ export class AdminComponent implements OnInit {
   onSubmit() {
     if(this.createUser){
     this.registerForm.reset(); 
-   console.log(this.userData)
-   console.log(this.userData.id_unique)
+
     this.submitted = true;
     this.userService.registerUser(this.userData).subscribe(
       (response: any) => {
-        console.log(response);
-        this.showSuccess('Utilisateur enregistrer');
+      
+        this.toastr.success('Utilisateur Enregistrer Avec Succés');
         this.resetUserData();
       },
       (error: any) => 
-      this.showError('Error notification message')
+      this.toastr.error('Utilisateur Non Enregistrer ')
     );
 
   }else{
     this.userService.UpdateUser(this.id,this.userData).subscribe(
       (response: any) => {
-        console.log(response);
-        this.showSuccess('Utilisateur modifier ');
+        
+        this.toastr.success(`Utilisateur Modifier Avec Succès`);
         this.resetUserData();
       },
-      (error: any) => this.showError('Error notification message')
+      (error: any) => this.toastr.error("Utilisateur Non Modifier")
     );
   }
   }
-   
+
      ngOnInit() {
       
-      this.showSuccess('Utilisateur enregistrer ');
+   
        //Add User form validations
        this.registerForm = this.formBuilder.group({
        email: ['', [Validators.required, Validators.email]],

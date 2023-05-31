@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { FicheImpaye } from 'src/app/Models/FicheImpaye';
 import { Fichiers } from 'src/app/Models/Fichiers';
 import { Notes } from 'src/app/Models/Notes';
@@ -28,7 +29,9 @@ export class NotesComponent {
     private fichierservice: FichiersService,
     private noteservice: NotesService,
     private router: Router,
-    private userService: UsersService // Inject the UsersService
+    private userService: UsersService ,
+    private toastr:ToastrService
+
   ) {
     this.myForm = this.formBuilder.group({
       commentaire: [''],
@@ -40,6 +43,7 @@ export class NotesComponent {
     });
   }
   ngOnInit() {
+    
    
     // Get the user ID from local storage
     const userId = localStorage.getItem('userId');
@@ -106,13 +110,15 @@ export class NotesComponent {
           updated_at: new Date()
         };
 
-        console.log('userData:', userData);
+        
         this.fichierservice.registerfichiers(userData, this.note).subscribe(
           () => {
             alert('Register fichiers: ' + JSON.stringify(userData));
+            this.toastr.success("Note Enregistrer Avec SUccés ")
+
           },
           (error) => {
-            alert(error);
+           this.toastr.error("Note  n'a Pas Eté Enregistrer ")
           }
         );
       },

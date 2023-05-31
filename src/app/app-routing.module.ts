@@ -14,6 +14,7 @@ import { CallcenterComponent } from './callcenter/callcenter.component';
 import { AccountComponent } from './account/account.component';
 import { AuthGuard } from './guards/auth.guard';
 import { FicheComponent } from './fiche/fiche.component';
+import { PrintComponent } from './fiche/print/print.component';
 
 
 
@@ -29,7 +30,7 @@ const routes: Routes = [
   {path:'',component:LandingComponent},
   {path:'callcenter',component:CallcenterComponent},
   {path:'account',component:AccountComponent, canActivate: [AuthGuard]},
-
+  { path: 'print', component: PrintComponent },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
