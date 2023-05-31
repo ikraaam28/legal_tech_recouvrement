@@ -5,6 +5,7 @@ import { NotesComponent } from './notes/notes.component';
 
 import { PrintComponent } from './print/print.component';
 import { CalendreierComponent } from './calendreier/calendreier.component';
+import { UserCardComponent } from './user-card/user-card.component';
 
 const routes: Routes = [{
   path: '',
@@ -12,8 +13,7 @@ const routes: Routes = [{
   children: [
     { path: 'notes', component: NotesComponent },
     { path: 'calendrier', component: CalendreierComponent },
-    { path: 'print', component: PrintComponent },
-    { path: 'usercard', component: PrintComponent },
+    { path: 'usercard', component:UserCardComponent},
   ]
 },];
 

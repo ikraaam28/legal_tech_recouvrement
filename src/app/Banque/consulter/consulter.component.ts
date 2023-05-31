@@ -4,6 +4,7 @@ import { FicheImpayeService } from 'src/app/services/fiche-impaye.service';
 import { FicheImpaye } from 'src/app/Models/FicheImpaye';
 import { Modal } from 'bootstrap';
 import Stepper from 'bs-stepper';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-consulter',
   templateUrl: './consulter.component.html',
@@ -27,6 +28,7 @@ registerForm!: FormGroup;
 submitted = false;
 searchTerm !: string;
 id!: number;
+isTouched = false;
 ficheData: FicheImpaye = {
   nom: '',
   prenom: '',
@@ -44,7 +46,7 @@ ficheData: FicheImpaye = {
 
 filteredFicheImpayelist: FicheImpaye[] | undefined;
 
-constructor( private formBuilder: FormBuilder, private ficheImpayeService: FicheImpayeService){}
+constructor( private formBuilder: FormBuilder, private ficheImpayeService: FicheImpayeService, private toastr: ToastrService){}
 
 mounted() {
   // Get the form element and the stepper object
@@ -76,16 +78,17 @@ transform(value: any[], searchText: string): any[] {
 
 onFileSelected(event: any) {
   this.selectedFile = event.target.files[0];
+  this.toastr.success("Fichier sélectionné")
 }
 
 onUpload(): void {
   if (!this.selectedFile) {
-    console.error('Aucun fichier sélectionné');
+    this.toastr.error("Aucun fichier sélectionné")
     return;
   }
 
   if (this.selectedFile.size === 0) {
-    console.error('Le fichier est vide');
+    this.toastr.warning('Le fichier est vide');
     return;
   }
 
@@ -95,26 +98,29 @@ onUpload(): void {
   ];
 
   if (!allowedMimeTypes.includes(this.selectedFile.type)) {
-    console.error('Le fichier doit être un fichier Excel valide');
+    this.toastr.warning('Le fichier doit être un fichier Excel valide');
     return;
   }
   let user_id = localStorage.getItem('id');
 
   this.ficheImpayeService.uploadFile(this.selectedFile,Number(user_id))
     .subscribe();
+    this.toastr.success("Fiche Enregistrer Avec Succés")
 }
 
 //Add user form actions
 get f() { return this.registerForm.controls; }
 
 deleteFiche(id: number) {
-  if (confirm('Are you sure you want to delete this fiche?')) {
+  if (confirm('Êtes-vous sûr de vouloir supprimer cette fiche?')) {
     this.ficheImpayeService.deleteFicheImpaye(id).subscribe(
       (response) => {
         this.FicheImpayelist = response;
+        this.toastr.success("Fiche Supprimer Avec Succés")
       },
       (error) => {
         console.error(error);
+        this.toastr.error("Fiche n'a Pas été Supprimer")
       }
     );
   }
@@ -227,7 +233,9 @@ modifierFiche( id: number,fiche: FicheImpaye) {
     }
   }
 }
+
 ngOnInit() {
+ 
   this.ficheImpayeService.getFichesImpayes().subscribe(result => {
     this.FicheImpayelist = result;
     this.totalItems = this.FicheImpayelist.length;
@@ -241,7 +249,7 @@ ngOnInit() {
       prenom: ['', Validators.required],
       cin: ['', Validators.required],
       adresse: ['', Validators.required],
-      tel: ['', Validators.required],
+      tel: ['', Validators.required, Validators.pattern('[0-9]*')],
       email: ['', [Validators.required, Validators.email]],
       
     }),
@@ -396,12 +404,12 @@ ngOnInit() {
   onSubmit() {
     if(this.createFiche){
     if (!this.selectedFile) {
-      console.error('Aucun fichier sélectionné');
+      this.toastr.error('Aucun fichier sélectionné');
       return;
     }
   
     if (this.selectedFile.size === 0) {
-      console.error('Le fichier est vide');
+      this.toastr.warning('Le fichier est vide');
       return;
     }
   
@@ -412,7 +420,7 @@ ngOnInit() {
     ];
   
     if (!allowedMimeTypes.includes(this.selectedFile.type)) {
-      console.error('Le fichier doit être un fichier valide');
+      this.toastr.warning('Le fichier doit être un fichier valide');
       return;
     }
 
@@ -432,7 +440,6 @@ ngOnInit() {
      };
   
     const id = localStorage.getItem('userId');
-    console.log(id);
     if (this.selectedFile) {
       const formData = new FormData();
       formData.append('justificatif_creances', this.selectedFile, this.selectedFile.name);

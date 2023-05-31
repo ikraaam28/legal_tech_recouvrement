@@ -35,9 +35,12 @@ import { UserCardComponent } from './fiche/user-card/user-card.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha';
 import { ChatbotComponent } from './chatbot/chatbot.component';
-import { Ng2SearchPipeModule } from 'ng2-search-filter';
+
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -82,10 +85,13 @@ import { MaterialFileInputModule } from 'ngx-material-file-input';
     NgxPaginationModule,
     ReactiveFormsModule,
     RecaptchaModule,
-    RecaptchaFormsModule
+    RecaptchaFormsModule,
+    ToastrModule.forRoot({timeOut: 10000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,})
   ],
   
-  providers: [{provide: HTTP_INTERCEPTORS, useClass:TokenInterceptorService,multi:true}],
+  providers: [ToastrService,{provide: HTTP_INTERCEPTORS, useClass:TokenInterceptorService,multi:true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
