@@ -40,6 +40,8 @@ import { NgxFileDropModule } from 'ngx-file-drop';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { DialogComponent } from './services/dialog/dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -62,7 +64,8 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
     NotesComponent,
     UserCardComponent,
     AccountComponent,
-    ChatbotComponent
+    ChatbotComponent,
+    DialogComponent
   ],
   imports: [
     BrowserModule,
@@ -79,6 +82,7 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
     MatInputModule,
     NgxFileDropModule,
     HttpClientModule, 
+    MatDialogModule,
     BrowserModule,
     Ng2SearchPipeModule,
     MatSnackBarModule,

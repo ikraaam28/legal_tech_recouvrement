@@ -1,15 +1,15 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { FicheImpaye } from 'src/app/Models/FicheImpaye';
 import { Fichiers } from 'src/app/Models/Fichiers';
-import { Notes } from 'src/app/Models/Notes';
-import { User } from 'src/app/Models/User';
-import { FicheImpayeService } from 'src/app/services/fiche-impaye.service';
 import { FichiersService } from 'src/app/services/fichiers.service';
 import { NotesService } from 'src/app/services/notes.service';
 import { UsersService } from 'src/app/services/users.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from 'src/app/services/dialog/dialog.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-notes',
@@ -20,7 +20,8 @@ export class NotesComponent {
   @Input() hideSpecificFields = false;
   @Input() noteList: any ;
   myForm: FormGroup;
-  selectedFiles: { [key: string]: File | null } = {};
+  selectedFile: File | null = null;
+  isUploading = false;
   note!: number;
   role: string = '';
   constructor(
@@ -30,7 +31,9 @@ export class NotesComponent {
     private noteservice: NotesService,
     private router: Router,
     private userService: UsersService ,
-    private toastr:ToastrService
+    private toastr:ToastrService,
+    private http: HttpClient,
+    private dialog: MatDialog
 
   ) {
     this.myForm = this.formBuilder.group({
@@ -43,8 +46,6 @@ export class NotesComponent {
     });
   }
   ngOnInit() {
-    
-   
     // Get the user ID from local storage
     const userId = localStorage.getItem('userId');
     if (userId) {
@@ -54,71 +55,102 @@ export class NotesComponent {
     } else {
       console.error('User ID not found in local storage');
     }
-    
-    
   }
-  
-  
+  selectedFiles: { [key: string]: File[] } = {};
 
-  onFileSelected(event: any, field: string): void {
-    const file: File = event.target.files[0];
-    this.selectedFiles[field] = file || null;
+  onFileSelected(event: any, controlId: string) {
+    const selectedFiles = event.target.files;
+    this.toastr.success(`${selectedFiles.length} fichier(s) sélectionné(s)`);
+  
+    // Store the selected files based on the controlId
+    this.selectedFiles[controlId] = Array.from(selectedFiles);
   }
+  openDialog(fileUrl: string): void {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '800px', // Set the desired width of the dialog
+      height: '600px', // Set the desired height of the dialog
+      data: { fileUrl },
+    });
+
+  }
+  getFileFromBackend(fileUrl: string): void {
+       window.open("http://127.0.0.1:8000/uploads/Fichiers/"+fileUrl, '_blank');
+  }
+
+   p: number = 1;
+   public currentPage: number = 1;
+
   Submit(): void {
-    const formData = new FormData();
+    if (Object.keys(this.selectedFiles).length === 0) {
+      this.toastr.error('Aucun fichier sélectionné');
+      return;
+    }
+  
     const allowedMimeTypes = [
       'application/pdf', // pdf
       'application/msword', // doc
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document' // docx
     ];
-
-    for (const field in this.selectedFiles) {
-      const file: File | null = this.selectedFiles[field];
-      if (file) {
-        if (file.size === 0) {
-          console.error(`The file ${field} is empty`);
-          return;
-        }
-
-        if (!allowedMimeTypes.includes(file.type)) {
-          console.error(`The file ${field} must be a valid file`);
-          return;
-        }
-
-        formData.append(field, file, file.name); // Append the file with its name
-        console.log(file);
-      } else {
-        console.error(`No file selected for the field ${field}`);
+  
+    for (const controlId in this.selectedFiles) {
+      const files = this.selectedFiles[controlId];
+      if (files.length === 0) {
+        this.toastr.warning(`Le champ ${controlId} ne contient aucun fichier`);
+        return;
+      }
+  
+      const file = files[0];
+      if (file.size === 0) {
+        this.toastr.warning(`Le fichier ${file.name} est vide`);
+        return;
+      }
+  
+      if (!allowedMimeTypes.includes(file.type)) {
+        this.toastr.warning(`Le fichier ${file.name} n'est pas valide`);
         return;
       }
     }
-
+  
     const user_id = localStorage.getItem('userId');
     const idfiche = this.activatedRoute.snapshot.paramMap.get('id');
-
+  
+    // Retrieve the form values
+    const commentaire = this.myForm.value.commentaire || '';
+    const enregistrementFiles = this.selectedFiles['enregistrement'] || [];
+    const fichierFiles = this.selectedFiles['fichier'] || [];
+    const jugementFiles = this.selectedFiles['jugement'] || [];
+    const pvExecutionFiles = this.selectedFiles['pv_execution'] || [];
+    const pvCreanceFiles = this.selectedFiles['pv_creance'] || [];
+  
+    // Construct the userData object
+    const userData: Fichiers = {
+      commentaire: commentaire,
+      enregistrement: enregistrementFiles.length > 0 ? enregistrementFiles[0].name : null,
+      fichier: fichierFiles.length > 0 ? fichierFiles[0].name : null,
+      jugement: jugementFiles.length > 0 ? jugementFiles[0].name : null,
+      pv_execution: pvExecutionFiles.length > 0 ? pvExecutionFiles[0].name : null,
+      pv_creance: pvCreanceFiles.length > 0 ? pvCreanceFiles[0].name : null,
+      created_at: new Date(),
+      updated_at: new Date()
+    };
+  
+    const formData = new FormData();
+    for (const controlId in this.selectedFiles) {
+      const files = this.selectedFiles[controlId];
+      for (const file of files) {
+        formData.append(controlId, file, file.name);
+      }
+    }
+  console.log(userData)
     this.noteservice.registernotes(Number(user_id), Number(idfiche)).subscribe(
       (res) => {
         this.note = res.id;
-        const userData: Fichiers = {
-          commentaire: this.myForm.value.commentaire ?? '',
-          enregistrement: this.selectedFiles['enregistrement'] ? this.selectedFiles['enregistrement'].name : null,
-          fichier: this.selectedFiles['fichier'] ? this.selectedFiles['fichier'].name : null,
-          jugement: this.selectedFiles['jugement'] ? this.selectedFiles['jugement'].name : null,
-          pv_execution: this.selectedFiles['pv_execution'] ? this.selectedFiles['pv_execution'].name : null,
-          pv_creance: this.selectedFiles['pv_creance'] ? this.selectedFiles['pv_creance'].name : null,
-          created_at: new Date(),
-          updated_at: new Date()
-        };
-
-        
-        this.fichierservice.registerfichiers(userData, this.note).subscribe(
+        this.fichierservice.registerfichiers(userData, this.note, formData).subscribe(
           () => {
-            alert('Register fichiers: ' + JSON.stringify(userData));
-            this.toastr.success("Note Enregistrer Avec SUccés ")
-
+            this.toastr.success("Note Enregistrée avec succès");
           },
           (error) => {
-           this.toastr.error("Note  n'a Pas Eté Enregistrer ")
+            this.toastr.error("La note n'a pas été enregistrée");
           }
         );
       },

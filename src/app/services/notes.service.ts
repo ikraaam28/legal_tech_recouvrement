@@ -43,8 +43,8 @@ export class NotesService {
       'Content-Type': 'application/json' });
     return this.http.get(url, { headers });
   }
-  getfichiers(): Observable<any> {
-    const url = `${this.baseUrl}/fichiers`;
+  getfichiers(id: number): Observable<any> {
+    const url = `${this.baseUrl}/fichiers/${id}`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });

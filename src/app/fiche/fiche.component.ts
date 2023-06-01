@@ -45,7 +45,9 @@ export class FicheComponent implements OnInit {
     this.ficheImpayeService.GetFicheImpaye(Number(id)).subscribe(
       (response: any) => {
         this.fiche = response;
-        this.fetchNotes();
+        this.noteservice.getfichiers(Number(id)).subscribe(result => {
+          this.noteList = result;
+        });
         this.fetchUserRole();
       },
       (error: any) => {
@@ -54,11 +56,6 @@ export class FicheComponent implements OnInit {
     );
   }
 
-  fetchNotes(): void {
-    this.noteservice.getfichiers().subscribe(result => {
-      this.noteList = result;
-    });
-  }
 
   fetchUserRole(): void {
     // Get the user ID from local storage

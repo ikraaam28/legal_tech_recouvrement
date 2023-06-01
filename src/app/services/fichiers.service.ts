@@ -11,11 +11,20 @@ export class FichiersService {
 
   constructor(private http: HttpClient) {}
 
-  registerfichiers(userData: Fichiers, noteId: number): Observable<any> {
+  registerfichiers(userData: Fichiers, noteId: number, formData: FormData | null): Observable<any> {
     const url = `${this.baseUrl}/fichiers/fichiercreated/${noteId}`;
-   
-    return this.http.post(url, userData);
+    
+    if (formData) {
+      formData.append('fichier', userData.fichier || '');
+      formData.append('pv_creance', userData.pv_creance || '');
+      formData.append('pv_execution', userData.pv_execution || '');
+      formData.append('commentaire', userData.commentaire || '');
+      formData.append('userData', JSON.stringify(userData));
+    }
+    
+    return this.http.post(url, formData);
   }
+  
   Updatefichiers(id:number, userData: Fichiers): Observable<any> {
     const url = `${this.baseUrl}/fichiers/${id}`;
     const body = JSON.stringify(userData);

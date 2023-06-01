@@ -29,7 +29,7 @@ const routes: Routes = [
   {path:'admin', component: AdminComponent, canActivate: [AuthGuard]},
   {path:'',component:LandingComponent},
   {path:'callcenter',component:CallcenterComponent},
-  {path:'account',component:AccountComponent, canActivate: [AuthGuard]},
+  {path:'account',component:AccountComponent},
   { path: 'print', component: PrintComponent },
 ];
 @NgModule({
