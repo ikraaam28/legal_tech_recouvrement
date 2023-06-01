@@ -8,7 +8,7 @@
         <!--begin::Card title-->
         <div class="card-title flex-column">
         <h2 class="mb-1">Notes</h2>
-        <div class="fs-6 fw-semibold text-muted">Total 3 Notes Enregistrées</div>
+        <div class="fs-6 fw-semibold text-muted">Total {{ noteList.length }} Notes Enregistrées</div>
         </div>
         <!--end::Card title-->
         <!--begin::Card toolbar-->
@@ -30,45 +30,52 @@
         </div>
         <!--end::Card header-->
         <!--begin::Card body-->
-        <table>
-            <tbody>
-                <tr *ngFor="let notes of noteList ">
-                    <td>
-                    <div class="card-body d-flex flex-column" >
-                        <!--begin::Item-->
-                        <div class="d-flex align-items-center position-relative mb-7">
-                        <!--begin::Label-->
-                        <div class="position-absolute top-0 start-0 rounded h-100 bg-secondary w-4px"></div>
-                        <!--end::Label-->
-                        <!--begin::Details-->
-                        <div class="fw-semibold ms-5">
-                        <a href="#" class="fs-5 fw-bold text-dark text-hover-primary">{{notes.commentaire}}</a>
-                        <!--begin::Info-->
-                        <div class="fs-7 text-muted">Le {{notes.updatedAt |  date:'yyyy-MM-dd'}}
-                        <a href="#">{{notes.notes.user.nom}}</a></div>
-                        <!--end::Info-->
+      
+                <div class="tab-content bg-transparent">
+                    <div id="note-full-container" class="note-has-grid row">
+                        <div class="col-md-4 single-note-item all-category"  *ngFor="let note of noteList.slice((p-1)*9, (p-1)*9+3)" >
+                            <div class="card card-body">
+                                <span class="side-stick"></span>
+                                <h5 class="note-title text-truncate w-75 mb-0" data-noteheading="Go for lunch">{{note.commentaire}} <i class="point fa fa-circle ml-1 font-10"></i></h5>
+                                <p class="note-date font-12 text-muted">{{note.updated_at}}</p>
+                                <div class="note-content">
+                                <button (click)="openDialog('http://127.0.0.1:8000/uploads/Fichiers/'+note.fichier)">Fichiers</button>
+                               </div>
+                               
+                                <div class="d-flex align-items-center">
+                                    
+                                    <div class="ml-auto">
+                                        <div class="category-selector btn-group">
+                                            <a class="nav-link dropdown-toggle category-dropdown label-group p-0" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
+                                                <div class="category">
+                                                    <div class="category-business"></div>
+                                                    <div class="category-social"></div>
+                                                    <div class="category-important"></div>
+                                                    <span class="more-options text-dark"><i class="icon-options-vertical"></i></span>
+                                                </div>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right category-menu">
+                                                <a class="note-business badge-group-item badge-business dropdown-item position-relative category-business text-success" href="javascript:void(0);">
+                                                    <i class="mdi mdi-checkbox-blank-circle-outline mr-1"></i>Business
+                                                </a>
+                                                <a class="note-social badge-group-item badge-social dropdown-item position-relative category-social text-info" href="javascript:void(0);">
+                                                    <i class="mdi mdi-checkbox-blank-circle-outline mr-1"></i> Social
+                                                </a>
+                                                <a class="note-important badge-group-item badge-important dropdown-item position-relative category-important text-danger" href="javascript:void(0);">
+                                                    <i class="mdi mdi-checkbox-blank-circle-outline mr-1"></i> Important
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <!--end::Details-->
-                        <!--begin::Menu-->
-                        <button type="button" class="btn btn-icon btn-active-light-primary w-30px h-30px ms-auto" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                        <!--begin::Svg Icon | path: icons/duotune/general/gen019.svg-->
-                        <span class="svg-icon svg-icon-3">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M17.5 11H6.5C4 11 2 9 2 6.5C2 4 4 2 6.5 2H17.5C20 2 22 4 22 6.5C22 9 20 11 17.5 11ZM15 6.5C15 7.9 16.1 9 17.5 9C18.9 9 20 7.9 20 6.5C20 5.1 18.9 4 17.5 4C16.1 4 15 5.1 15 6.5Z" fill="currentColor" />
-                        <path opacity="0.3" d="M17.5 22H6.5C4 22 2 20 2 17.5C2 15 4 13 6.5 13H17.5C20 13 22 15 22 17.5C22 20 20 22 17.5 22ZM4 17.5C4 18.9 5.1 20 6.5 20C7.9 20 9 18.9 9 17.5C9 16.1 7.9 15 6.5 15C5.1 15 4 16.1 4 17.5Z" fill="currentColor" />
-                        </svg>
-                        </span>
-                        <!--end::Svg Icon-->
-                        </button>
-                        <!--end::Menu-->
-                        </div>
-                        <!--end::Item-->
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-
-        </table>
+              </div> <pagination-controls 
+              (pageChange)="currentPage = $event"
+              previousLabel="Précédent"
+              nextLabel="Suivant">
+            </pagination-controls>
+            </div>
         
         <!--end::Card body-->
         </div>
@@ -202,31 +209,31 @@
                 <!-- Pièces Jointes -->
                 <div class="fv-row mb-7">
                   <label class="required fs-6 fw-semibold form-label mb-2">Pièces Jointes</label>
-                  <input type="file" class="form-control form-control-solid" formControlName="fichier" (change)="onFileSelected($event, 'fichier')" />
+                  <input type="file" class="form-control form-control-solid" formControlName="fichier" (change)="onFileSelected($event,'fichier')" />
                 </div>
                 
                 <!-- Jugement -->
                 <div class="fv-row mb-7"  *ngIf="role.includes('Centre D\'appel')">
                   <label class="required fs-6 fw-semibold form-label mb-2">Jugement</label>
-                  <input type="file" class="form-control form-control-solid" formControlName="jugement" (change)="onFileSelected($event, 'jugement')" />
+                  <input type="file" class="form-control form-control-solid" formControlName="jugement" (change)="onFileSelected($event,'jugement')" />
                 </div>
                 
                 <!-- PV Execution -->
                 <div class="fv-row mb-7">
                   <label class="required fs-6 fw-semibold form-label mb-2">PV Execution</label>
-                  <input type="file" class="form-control form-control-solid" formControlName="pv_execution" (change)="onFileSelected($event, 'pv_execution')" />
+                  <input type="file" class="form-control form-control-solid" formControlName="pv_execution" (change)="onFileSelected($event,'pv_execution')" />
                 </div>
                 
                 <!-- PV Creance -->
                 <div class="fv-row mb-7"  *ngIf="role.includes('Banque')">
                   <label class="required fs-6 fw-semibold form-label mb-2" >PV Creance</label>
-                  <input type="file" class="form-control form-control-solid" formControlName="pv_creance" (change)="onFileSelected($event, 'pv_creance')" />
+                  <input type="file" class="form-control form-control-solid" formControlName="pv_creance" (change)="onFileSelected($event,'pv_creance')" />
                 </div>
                 
                 <!-- Enregistrement vocal -->
                 <div class="fv-row mb-7" *ngIf="role.includes('Centre D\'appel')">
                   <label class="required fs-6 fw-semibold form-label mb-2" >Enregistrement vocal</label>
-                  <input type="file" class="form-control form-control-solid" formControlName="enregistrement"  (change)="onFileSelected($event, 'enregistrement') " />
+                  <input type="file" class="form-control form-control-solid" formControlName="enregistrement"  (change)="onFileSelected($event,'enregistrement') " />
                 </div>
                 
                 <!-- Actions -->
@@ -248,3 +255,5 @@
         <!--end::Modal - Add task-->
         </div>
         </div>
+
+     

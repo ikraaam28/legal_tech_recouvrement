@@ -58,21 +58,27 @@
         <div class="tab-pane fade" id="call" role="tabpanel">
           <!-- Call Center content here -->
           <app-notes [hideSpecificFields]="roleuser.includes('Centre D\'appel') ? true : false" [noteList]="noteList" *ngIf="activeTab === 'call'"></app-notes>
-          <app-calendreier *ngIf="activeTab === 'call'" ></app-calendreier>
+          <app-calendreier *ngIf="activeTab === 'call'"  ></app-calendreier>
         </div>
         <div class="tab-pane fade" id="view_agent_sur_terrain_tab" role="tabpanel">
           <!-- Agent sur Terrain content here -->
           <app-notes [hideSpecificFields]="roleuser.includes('Agent Sur Terrain') ? true : false" [noteList]="noteList" *ngIf="activeTab === 'agent'"></app-notes>
+          <app-calendreier *ngIf="activeTab === 'agent'"  ></app-calendreier>
         </div>
         <div class="tab-pane fade" id="view_avocat_tab" role="tabpanel">
           <!-- Avocat content here -->
           <app-notes [hideSpecificFields]="roleuser.includes('Avocat') ? true : false" [noteList]="noteList" *ngIf="activeTab === 'avocat'" ></app-notes>
+          <app-calendreier *ngIf="activeTab === 'avocat'"  ></app-calendreier>
         </div>
         <div class="tab-pane fade" id="view_huissier_nottaire_tab" role="tabpanel">
           <!-- Huissier Nottaire content here -->
           <app-notes [hideSpecificFields]="roleuser.includes('Hussier Nottaire') ? true : false" [noteList]="noteList" *ngIf="activeTab === 'huissier'" >
-    
+        
           </app-notes>
+          <app-calendreier *ngIf="activeTab === 'huissier'"  ></app-calendreier>
         </div>
         
-         </div></div></div></div></div></div>
+         </div></div></div></div></div>
+        
+        
+        </div>
