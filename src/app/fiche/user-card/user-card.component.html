@@ -1,9 +1,12 @@
 <!--begin::Sidebar-->
 <div class="flex-column flex-lg-row-auto w-100 w-xl-350px mb-10">
+
 <!--begin::Card-->
 <div class="card mb-5 mb-xl-8">
+    
     <!--begin::Card body-->
     <div class="card-body pt-15">
+       
         <!--begin::Summary-->
         <div class="d-flex flex-center flex-column mb-5">
             <!--begin::Avatar-->
@@ -31,7 +34,7 @@
                 <!--end::Svg Icon-->
             </span></div>
             <span data-bs-toggle="tooltip" data-bs-trigger="hover" title="Edit customer details">
-                <a  (click)="redirigerVersComponent()" class="btn btn-sm btn-light-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_update_customer">Imprimer</a>
+                <a  (click)="redirigerVersComponent(fiche)" class="btn btn-sm btn-light-primary" data-bs-toggle="modal"  routerLink="/print" data-bs-target="#kt_modal_update_customer">Imprimer</a>
             </span>
         </div>
         <!--end::Details toggle-->

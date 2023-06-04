@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FicheImpaye } from 'src/app/Models/FicheImpaye';
 @Component({
@@ -16,7 +16,9 @@ constructor(private router: Router){}
   afficherComposantImprimer() {
       this.afficherComposant = true;
   }
-  redirigerVersComponent() {
+  redirigerVersComponent(fiche :FicheImpaye) {
+    localStorage.setItem('fiche', JSON.stringify(fiche));
     this.router.navigate(['/print']);
+  
   }
 }

@@ -30,7 +30,7 @@ const routes: Routes = [
   {path:'',component:LandingComponent},
   {path:'callcenter',component:CallcenterComponent},
   {path:'account',component:AccountComponent},
-  { path: 'print', component: PrintComponent },
+  { path: 'print', component: PrintComponent},
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

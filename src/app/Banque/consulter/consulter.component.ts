@@ -7,6 +7,7 @@ import Stepper from 'bs-stepper';
 import { ToastrService } from 'ngx-toastr';
 import { calendrier } from 'src/app/Models/calendrier';
 import { CalendrierService } from 'src/app/services/calendrier.service';
+import { UsersService } from 'src/app/services/users.service';
 @Component({
   selector: 'app-consulter',
   templateUrl: './consulter.component.html',
@@ -31,6 +32,8 @@ submitted = false;
 searchTerm !: string;
 id!: number;
 isTouched = false;
+role!: any;
+email!:any;
 ficheData: FicheImpaye = {
   nom: '',
   prenom: '',
@@ -48,7 +51,7 @@ ficheData: FicheImpaye = {
 
 filteredFicheImpayelist: FicheImpaye[] | undefined;
 
-constructor( private formBuilder: FormBuilder, private ficheImpayeService: FicheImpayeService, private toastr: ToastrService,private calendrierService: CalendrierService){}
+constructor( private formBuilder: FormBuilder,private userservice: UsersService, private ficheImpayeService: FicheImpayeService, private toastr: ToastrService,private calendrierService: CalendrierService){}
 
 mounted() {
   // Get the form element and the stepper object
@@ -237,7 +240,7 @@ modifierFiche( id: number,fiche: FicheImpaye) {
 }
 
 ngOnInit() {
- 
+  this.role =localStorage.getItem('role');
   this.ficheImpayeService.getFichesImpayes().subscribe(result => {
     this.FicheImpayelist = result;
     this.totalItems = this.FicheImpayelist.length;
@@ -544,30 +547,19 @@ eventData: calendrier={
 
 }
 submitEvent(): void {
-  console.log('clicked ');
-  // Get the submitted form data
   const formData = new FormData(this.eventForm.nativeElement);
 
-  // Extract the event details
-  
-console.log(this.eventData);
-  
-  // Add the event to the calendar using the appropriate method provided by the calendar library/component
- 
   this.calendrierService.addEvent(
    this.eventData
   ).subscribe(
     (response: any) => {
       console.log('Event created successfully:', response);
-      // Handle the response as needed
       this.resetEventData();
     },
     (error: any) => {
       console.error('Error creating event:', error);
-      // Handle the error as needed
     }
   );
-  // Optionally, reset the form
   this.eventForm.nativeElement.reset();
 }
 }

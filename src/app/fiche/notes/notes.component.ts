@@ -10,6 +10,7 @@ import { UsersService } from 'src/app/services/users.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from 'src/app/services/dialog/dialog.component';
 import { DatePipe } from '@angular/common';
+import { PaginationInstance } from 'ngx-pagination';
 
 @Component({
   selector: 'app-notes',
@@ -79,7 +80,22 @@ export class NotesComponent {
 
    p: number = 1;
    public currentPage: number = 1;
-
+   
+  
+  // Function to navigate to the previous page
+  prevPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
+  }
+  
+  // Function to navigate to the next page
+  nextPage(): void {
+    // Replace 9 with the number of items per page
+    if (this.currentPage < Math.ceil(this.noteList.length / 9)) {
+      this.currentPage++;
+    }
+  }
   Submit(): void {
     if (Object.keys(this.selectedFiles).length === 0) {
       this.toastr.error('Aucun fichier sélectionné');

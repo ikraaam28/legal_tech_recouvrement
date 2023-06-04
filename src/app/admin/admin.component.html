@@ -460,13 +460,13 @@
                                                                             
                                                                             <div class="col">
                                                                                 <label class="label required">Nom</label>
-                                                                                <input type="text" name="Nom" [(ngModel)]="userData.nom" class="form-control form-control-solid white-border transparent-background" placeholder="Nom" required
-                                                                                  (focus)="isTouched = true" (blur)="isTouched = userData.nom ? false : true" style="background-color: white;">
+                                                                                <input type="text" name="Nom" [(ngModel)]="userData.nom" class="form-control form-control-solid white-border transparent-background bg" placeholder="Nom" required
+                                                                                  (focus)="isTouched = true" (blur)="isTouched = userData.nom ? false : true" >
                                                                                 <span *ngIf="isTouched && !userData.nom" class="text-danger">Le champ Nom est obligatoire.</span>
                                                                               </div>
                                                                             <div class="col">
                                                                                 <label class="label required">Prenom</label>
-                                                                                <input type="text" name="Prenom" [(ngModel)]="userData.prenom" class="form-control form-control-solid white-border transparent-background" placeholder="Prenom" required
+                                                                                <input type="text" name="Prenom" [(ngModel)]="userData.prenom" class="form-control form-control-solid white-border transparent-background bg " placeholder="Prenom" required
                                                                                 (focus)="isTouched = true" (blur)="isTouched = userData.prenom ? false : true">
                                                                                 <span *ngIf="isTouched && !userData.prenom" class="text-danger">Le champ Prenom est obligatoire.</span>
                                                                             </div>
@@ -475,7 +475,7 @@
                                                                         <div class="form-group row mb-7">
                                                                             <div class="col">
                                                                                 <label class="label required">Numero telephone</label>
-                                                                                <input type="text" name="Numero" [(ngModel)]="userData.numero" class="form-control form-control-solid white-border" placeholder="Numero" required
+                                                                                <input type="text" name="Numero" [(ngModel)]="userData.numero" class="form-control form-control-solid white-border bg" placeholder="Numero" required
                                                                                   pattern="[0-9]*" maxlength="7" minlength="7" (focus)="isTouched = true" (blur)="isTouched = userData.numero? false : true">
                                                                                 <span *ngIf="isTouched && !userData.numero" class="text-danger">Le champ Numéro est obligatoire.</span>
                                                                                 <span *ngIf="registerForm.controls['Numero'].errors?.['pattern']" class="text-danger">Le champ Numéro doit contenir uniquement des chiffres.</span>
@@ -486,7 +486,7 @@
                                                                               
                                                                             <div class="col">
                                                                                 <label class="label required">Adresse</label>
-                                                                                <input type="text" name="Adresse" [(ngModel)]="userData.adresse" class="form-control form-control-solid white-border " placeholder="Adresse" required
+                                                                                <input type="text" name="Adresse" [(ngModel)]="userData.adresse" class="form-control form-control-solid white-border bg " placeholder="Adresse" required
                                                                                 (focus)="isTouched = true" (blur)="isTouched = userData.adresse ? false : true">
                                                                                 <span *ngIf="isTouched && !userData.adresse" class="text-danger">Le champ Adresse est obligatoire.</span>
                                                                             </div>
@@ -496,7 +496,7 @@
                                                                           
                                                                             <div class="col">
                                                                                 <label class="label required">Email</label>
-                                                                                <input type="email" name="Email" [(ngModel)]="userData.email" class="form-control form-control-solid white-border" placeholder="Email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}"
+                                                                                <input type="email" name="Email" [(ngModel)]="userData.email" class="form-control form-control-solid white-border bg " placeholder="Email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}"
                                                                                   (focus)="isTouched = true" (blur)="isTouched = userData.email ? false : true">
                                                                                 <span *ngIf="isTouched && !userData.email" class="text-danger">Le champ Email est obligatoire.</span>
                                                                                 <span *ngIf="registerForm.controls['Email'].errors?.['pattern']" class="text-danger">Veuillez entrer une adresse email valide.</span>
@@ -505,7 +505,7 @@
                                                                               
                                                                                 <div class="col">
                                                                                     <label class="label required">Mot de passe</label>
-                                                                                    <input type="password" name="password" [(ngModel)]="userData.password" class="form-control form-control-solid white-border" placeholder="Password" required minlength="6"
+                                                                                    <input type="password" name="password" [(ngModel)]="userData.password" class="form-control form-control-solid white-border bg " placeholder="Password" required minlength="6"
                                                                                     (focus)="isTouched = true" (blur)="isTouched = userData.password? false : true" >
                                                                                     <span *ngIf="isTouched && !userData.password" class="text-danger">Le champ Mot de passe est obligatoire.</span>
                                                                                     <span *ngIf="registerForm.controls['password'].errors?.['minlength']" class="text-danger">Le champ Mot de passe doit contenir au moins 6 caractères.</span>

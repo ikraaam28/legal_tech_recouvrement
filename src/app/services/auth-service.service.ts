@@ -33,6 +33,7 @@ export class AuthServiceService {
         const token = response.token;
         this.setToken(token);
         const user = response.user;
+        
         this.setCurrentUser(user);
         this.isLoggedInSubject.next(true);
       })

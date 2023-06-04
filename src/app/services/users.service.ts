@@ -60,7 +60,7 @@ export class UsersService {
     });
     return this.http.get(url, { headers });
   }
-  GetRoleUser(email: string): Observable<any> {
+  GetRoleUser(email: string ): Observable<any> {
     const url = `${this.baseUrl}/users/getRole/${email}`;
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({

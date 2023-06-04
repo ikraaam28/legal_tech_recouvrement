@@ -14,6 +14,7 @@ const routes: Routes = [{
     { path: 'notes', component: NotesComponent },
     { path: 'calendrier', component: CalendreierComponent },
     { path: 'usercard', component:UserCardComponent},
+   
   ]
 },];
 
