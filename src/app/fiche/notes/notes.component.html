@@ -33,14 +33,18 @@
       
                 <div class="tab-content bg-transparent">
                     <div id="note-full-container" class="note-has-grid row">
-                        <div class="col-md-4 single-note-item all-category"  *ngFor="let note of noteList.slice((p-1)*9, (p-1)*9+3)" >
+                        <div class="col-md-4 single-note-item all-category" *ngFor="let note of noteList.slice((currentPage - 1) * 9, (currentPage - 1) * 9 + 3)">
                             <div class="card card-body">
                                 <span class="side-stick"></span>
                                 <h5 class="note-title text-truncate w-75 mb-0" data-noteheading="Go for lunch">{{note.commentaire}} <i class="point fa fa-circle ml-1 font-10"></i></h5>
                                 <p class="note-date font-12 text-muted">{{note.updated_at}}</p>
                                 <div class="note-content">
-                                <button (click)="openDialog('http://127.0.0.1:8000/uploads/Fichiers/'+note.fichier)">Fichiers</button>
-                               </div>
+                                    <button class="file-button" (click)="openDialog('http://127.0.0.1:8000/uploads/Fichiers/' + note.fichier)">
+                                        <i class="file-icon fas fa-file"></i>
+                                        Fichiers
+                                    </button>
+                                  </div>
+                                  
                                
                                 <div class="d-flex align-items-center">
                                     
@@ -75,6 +79,7 @@
               previousLabel="Précédent"
               nextLabel="Suivant">
             </pagination-controls>
+            
             </div>
         
         <!--end::Card body-->

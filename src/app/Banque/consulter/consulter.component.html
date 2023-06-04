@@ -1301,7 +1301,7 @@
   <!--end::Search-->
 </div>
 <!--end::Card title-->
-
+<div *ngIf="role.includes('Banque')" >
 <!--begin::Card toolbar-->
 <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
   
@@ -1319,9 +1319,9 @@
 
                                 
                                 <!-- Modal -->
-                                <a   class="btn btn-primary" style="color: white;" data-bs-toggle="modal" data-bs-target="#kt_modal_offer_a_deal" (click)="onHireMeClick()">Ajouter Fiche</a>
+<a   class="btn btn-primary" style="color: white;" data-bs-toggle="modal" data-bs-target="#kt_modal_offer_a_deal" (click)="onHireMeClick()">Ajouter Fiche</a>
                                 <!--begin::Modal body-->
-
+                            
                                 	<!--begin::Modal - Offer A Deal-->
 		<div class="modal fade" id="kt_modal_offer_a_deal" tabindex="-1" aria-hidden="true">
 			<!--begin::Modal dialog-->
@@ -1536,11 +1536,15 @@
 						</div>
 						<!--end::Stepper-->
 					</div>
-					<!--begin::Modal body--></div></div></div>
+					<!--begin::Modal body-->
+        </div>
+      </div>
+    </div>
                                 
 
-</div>
+</div> 
 <!--end::Card toolbar-->
+</div>
 </div>
 <!--end::Card header-->
 
@@ -1623,8 +1627,9 @@
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" [routerLink]="['/fiche', ficheimpaye.id]" >Consulter</a>
-                <a class="dropdown-item"  (click)="modifierFiche(ficheimpaye.id, ficheimpaye)" data-bs-toggle="modal" data-bs-target="#kt_modal_offer_a_deal" >Modifier</a>
-                <a class="dropdown-item" (click)="deleteFiche(ficheimpaye.id)">Supprimer</a>
+               
+                <a class="dropdown-item" *ngIf="role.includes('Banque')"  (click)="modifierFiche(ficheimpaye.id, ficheimpaye)" data-bs-toggle="modal" data-bs-target="#kt_modal_offer_a_deal" >Modifier</a>
+                <a class="dropdown-item" *ngIf="role.includes('Banque')"  (click)="deleteFiche(ficheimpaye.id)">Supprimer</a>
             </div>
         </div>
     </td>

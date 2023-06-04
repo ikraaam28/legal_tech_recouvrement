@@ -26,6 +26,10 @@ body {
   overflow: hidden;
   align-items: flex-end;
 }
+.my-custom-margin {
+  margin-left: 75px;
+}
+
 
 .timeline {
   width: 355px;

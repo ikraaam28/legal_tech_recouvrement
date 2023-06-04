@@ -51,8 +51,9 @@ export class LoginComponent implements OnInit {
           // Save the token and user ID to local storage
           localStorage.setItem('jwt', response.token);
           localStorage.setItem('userId', response.user.id);
-
-         
+          localStorage.setItem('email', email);
+          localStorage.setItem('role', response.user.role);
+           console.log(response.user.role)
           this.toastr.success(`Bienvenue ${email} !`);
       
           // Navigate to the appropriate page based on the user's role

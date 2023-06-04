@@ -1,7 +1,7 @@
 import { Notes } from "./Notes";
 
 export class FicheImpaye {
-
+    
     nom: string;
     prenom: string;
     cin: string;

@@ -42,6 +42,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { DialogComponent } from './services/dialog/dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { PrintComponent } from './fiche/print/print.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     UserCardComponent,
     AccountComponent,
     ChatbotComponent,
-    DialogComponent
+    DialogComponent,
+    PrintComponent
   ],
   imports: [
     BrowserModule,

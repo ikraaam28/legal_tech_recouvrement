@@ -427,7 +427,9 @@ igx-radio {
     color: white;
 }
 .modal.fade {
-    background-color: rgba(255, 255, 255, 0); /* Set the desired fade color with opacity */
+    background-color: rgba(255, 255, 255, 0.238); /* Set the desired fade color with opacity */
   }
 
-  
+.bg{
+    background-color: white;
+  }
